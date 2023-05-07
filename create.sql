@@ -46,7 +46,7 @@ CREATE TABLE borrow(
     start_time  date DEFAULT now()
 );
 
-CREATE TABLE borrow_archive(
+CREATE TABLE borrow_history(
     id         serial PRIMARY KEY,
     book_id    integer REFERENCES book(id),
     user_id    integer REFERENCES users(id),

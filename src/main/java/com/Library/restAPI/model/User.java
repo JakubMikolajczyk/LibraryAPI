@@ -51,6 +51,6 @@ public class User {
     private List<Borrow> borrows;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<BorrowArchive> borrowHistory;
+    private List<BorrowHistory> borrowHistory;
 
 }

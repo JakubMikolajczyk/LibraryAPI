@@ -10,7 +10,7 @@ import java.sql.Date;
 @Entity
 @Getter
 @Setter
-public class BorrowArchive {
+public class BorrowHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
