@@ -27,7 +27,6 @@ public class Book {
     @NotBlank
     private String  tittle;
     @NotBlank
-
     private String ISBN;
     @NotBlank
     private int year;
@@ -35,15 +34,32 @@ public class Book {
     @ColumnDefault("null")
     private Date deletedDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id")
     private Author author;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "book_category",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories;
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
     private List<Specimen> specimens;
 
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+    private List<Borrow> borrows;
+
+
+    public void addCategory(Category category){
+        this.categories.add(category);
+        category.getBooks().add(this);
+    }
+
+    public void removeCategory(Category category){
+        this.categories.remove(category);
+        category.getBooks().remove(this);
+    }
 }

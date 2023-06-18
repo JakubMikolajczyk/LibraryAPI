@@ -21,6 +21,10 @@ public class Borrow {
     private Specimen specimen;
 
     @ManyToOne
+    @JoinColumn(name = "book_id")
+    private Book book;
+
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 

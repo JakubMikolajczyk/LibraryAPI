@@ -19,13 +19,6 @@ public class Category {
     @NotBlank
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private Category parent;
-
-    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
-    private List<Category> children;
-
-    @OneToMany(mappedBy = "category",fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "categories")
     private List<Book> books;
 }

@@ -22,8 +22,7 @@ CREATE TABLE author(
 
 CREATE TABLE category(
     id          serial PRIMARY KEY,
-    name        varchar(30) NOT NULL,
-    parent_id   integer REFERENCES category(id)
+    name        varchar(30) NOT NULL
 );
 
 CREATE Table book(
@@ -32,8 +31,13 @@ CREATE Table book(
     tittle      varchar(50) NOT NULL,
     year        integer  NOT NULL,
     author_id   integer REFERENCES author(id),
-    category_id integer REFERENCES category(id),
     delete_date timestamp DEFAULT null
+);
+
+CREATE Table book_category(
+    book_id integer REFERENCES book(id),
+    category_id integer REFERENCES category(id),
+    PRIMARY KEY (book_id, category_id)
 );
 
 CREATE TABLE specimen(
@@ -43,6 +47,7 @@ CREATE TABLE specimen(
 
 CREATE TABLE borrow(
     id          serial PRIMARY KEY ,
+    book_id     integer REFERENCES book(id),
     specimen_id integer REFERENCES specimen(id),
     user_id     integer REFERENCES users(id),
     start_time  timestamp DEFAULT now()
