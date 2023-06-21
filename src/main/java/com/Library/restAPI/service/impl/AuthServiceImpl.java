@@ -42,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDto login(LoginRequest loginRequest, HttpServletResponse response) {
+    public User login(LoginRequest loginRequest, HttpServletResponse response) {
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -61,12 +61,12 @@ public class AuthServiceImpl implements AuthService {
         response.addCookie(refreshCookie);
         response.addCookie(jwtService.generateAccessCookie(user,tokenId));
 
-        return UserMapper.toDto(user);
+        return user;
 
     }
 
     @Override
-    public UserDto register(RegisterRequest registerRequest, HttpServletResponse response) {
+    public User register(RegisterRequest registerRequest, HttpServletResponse response) {
         User user = User.builder()
                 .username(registerRequest.username())
                 .password(passwordEncoder.encode(registerRequest.password()))
@@ -85,7 +85,7 @@ public class AuthServiceImpl implements AuthService {
         response.addCookie(refreshCookie);
         response.addCookie(jwtService.generateAccessCookie(savedUser, tokenId));
 
-        return UserMapper.toDto(savedUser);
+        return savedUser;
     }
 
 
@@ -113,7 +113,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserDto refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public User refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         Cookie[] cookies = request.getCookies();
 
@@ -144,7 +144,7 @@ public class AuthServiceImpl implements AuthService {
 
         response.addCookie(jwtService.generateAccessCookieFromToken(jwt));
 
-        return UserMapper.toDto(tokenFromDB.getUser());
+        return tokenFromDB.getUser();
     }
 
     private void saveUserToken(User user, String jwtToken){

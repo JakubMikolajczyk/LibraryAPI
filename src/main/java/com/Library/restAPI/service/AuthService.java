@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 public interface AuthService {
 
-        UserDto login(LoginRequest loginRequest, HttpServletResponse response);
-        UserDto register(RegisterRequest registerRequest, HttpServletResponse response);
+        User login(LoginRequest loginRequest, HttpServletResponse response);
+        User register(RegisterRequest registerRequest, HttpServletResponse response);
         void logoutAll(User user);
         void changePassword(String username, PasswordChangeRequest passwordChangeRequest, HttpServletResponse response);
-        UserDto refreshToken(HttpServletRequest request, HttpServletResponse response);
+        User refreshToken(HttpServletRequest request, HttpServletResponse response);
 }

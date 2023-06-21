@@ -4,6 +4,7 @@ package com.Library.restAPI.controller;
 import com.Library.restAPI.dto.LoginRequest;
 import com.Library.restAPI.dto.RegisterRequest;
 import com.Library.restAPI.dto.UserDto;
+import com.Library.restAPI.mapper.UserMapper;
 import com.Library.restAPI.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,7 +23,7 @@ public class Auth {
             @RequestBody RegisterRequest request,
             HttpServletResponse response
             ){
-        return authService.register(request, response);
+        return UserMapper.toDto(authService.register(request, response));
     }
 
     @PostMapping("/login")
@@ -30,13 +31,13 @@ public class Auth {
             @RequestBody LoginRequest request,
             HttpServletResponse response
             ){
-        return authService.login(request, response);
+        return UserMapper.toDto(authService.login(request, response));
 
     }
 
     @RequestMapping("/refresh-token")
     public UserDto refreshToken(HttpServletRequest request, HttpServletResponse response){
-        return authService.refreshToken(request, response);
+        return UserMapper.toDto(authService.refreshToken(request, response));
     }
 
 }
