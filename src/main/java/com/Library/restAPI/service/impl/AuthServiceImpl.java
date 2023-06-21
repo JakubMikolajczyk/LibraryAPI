@@ -3,6 +3,8 @@ package com.Library.restAPI.service.impl;
 import com.Library.restAPI.dto.LoginRequest;
 import com.Library.restAPI.dto.PasswordChangeRequest;
 import com.Library.restAPI.dto.RegisterRequest;
+import com.Library.restAPI.dto.UserDto;
+import com.Library.restAPI.mapper.UserMapper;
 import com.Library.restAPI.model.Token;
 import com.Library.restAPI.model.User;
 import com.Library.restAPI.repository.TokenRepository;
@@ -14,13 +16,12 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
+
 
 import java.security.InvalidParameterException;
 import java.util.Arrays;
@@ -41,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public void login(LoginRequest loginRequest, HttpServletResponse response) {
+    public UserDto login(LoginRequest loginRequest, HttpServletResponse response) {
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -60,10 +61,12 @@ public class AuthServiceImpl implements AuthService {
         response.addCookie(refreshCookie);
         response.addCookie(jwtService.generateAccessCookie(user,tokenId));
 
+        return UserMapper.toDto(user);
+
     }
 
     @Override
-    public void register(RegisterRequest registerRequest, HttpServletResponse response) {
+    public UserDto register(RegisterRequest registerRequest, HttpServletResponse response) {
         User user = User.builder()
                 .username(registerRequest.username())
                 .password(passwordEncoder.encode(registerRequest.password()))
@@ -81,6 +84,8 @@ public class AuthServiceImpl implements AuthService {
 
         response.addCookie(refreshCookie);
         response.addCookie(jwtService.generateAccessCookie(savedUser, tokenId));
+
+        return UserMapper.toDto(savedUser);
     }
 
 
@@ -108,7 +113,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public UserDto refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         Cookie[] cookies = request.getCookies();
 
@@ -134,12 +139,12 @@ public class AuthServiceImpl implements AuthService {
             throw new InvalidParameterException("Refresh token is expired"); //TODO exception
         }
 
-
-        if (!tokenRepository.existsById(jwtService.extractId(jwt))){
-            throw new InvalidParameterException("Wrong refresh token"); //TODO exception
-        }
+        Token tokenFromDB = tokenRepository.findTokenById(jwtService.extractId(jwt))
+                .orElseThrow(() -> new InvalidParameterException("Wrong refresh token")); //TODO exception
 
         response.addCookie(jwtService.generateAccessCookieFromToken(jwt));
+
+        return UserMapper.toDto(tokenFromDB.getUser());
     }
 
     private void saveUserToken(User user, String jwtToken){

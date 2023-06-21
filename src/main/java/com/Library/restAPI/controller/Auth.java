@@ -3,6 +3,7 @@ package com.Library.restAPI.controller;
 
 import com.Library.restAPI.dto.LoginRequest;
 import com.Library.restAPI.dto.RegisterRequest;
+import com.Library.restAPI.dto.UserDto;
 import com.Library.restAPI.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,31 +12,31 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
-public class auth {
+public class Auth {
 
     @Autowired
     private AuthService authService;
 
     @PostMapping("/register")
-    public void register(
+    public UserDto register(
             @RequestBody RegisterRequest request,
             HttpServletResponse response
             ){
-        authService.register(request, response);
+        return authService.register(request, response);
     }
 
     @PostMapping("/login")
-    public void login(
+    public UserDto login(
             @RequestBody LoginRequest request,
             HttpServletResponse response
             ){
-        authService.login(request, response);
+        return authService.login(request, response);
 
     }
 
     @RequestMapping("/refresh-token")
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response){
-        authService.refreshToken(request, response);
+    public UserDto refreshToken(HttpServletRequest request, HttpServletResponse response){
+        return authService.refreshToken(request, response);
     }
 
 }
