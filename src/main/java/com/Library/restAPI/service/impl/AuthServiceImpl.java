@@ -3,8 +3,6 @@ package com.Library.restAPI.service.impl;
 import com.Library.restAPI.dto.LoginRequest;
 import com.Library.restAPI.dto.PasswordChangeRequest;
 import com.Library.restAPI.dto.RegisterRequest;
-import com.Library.restAPI.dto.UserDto;
-import com.Library.restAPI.mapper.UserMapper;
 import com.Library.restAPI.model.Token;
 import com.Library.restAPI.model.User;
 import com.Library.restAPI.repository.TokenRepository;
@@ -15,7 +13,7 @@ import io.jsonwebtoken.io.IOException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,19 +25,16 @@ import java.security.InvalidParameterException;
 import java.util.Arrays;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private TokenRepository tokenRepository;
-    @Autowired
-    private JwtService jwtService;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+
+    private final UserRepository userRepository;
+    private final TokenRepository tokenRepository;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public User login(LoginRequest loginRequest, HttpServletResponse response) {

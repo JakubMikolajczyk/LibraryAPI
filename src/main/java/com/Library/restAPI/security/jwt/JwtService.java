@@ -10,7 +10,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,6 +21,7 @@ import java.security.Key;
 import java.util.*;
 import java.util.function.Function;
 
+@RequiredArgsConstructor
 @Service
 public class JwtService {
 
@@ -33,8 +34,7 @@ public class JwtService {
     @Value("${library.app.jwtExpirationMsAccess}")
     private int EXPIRATION_MS_ACCESS = 1000 * 60 * 5;
 
-    @Autowired
-    private TokenRepository tokenRepository;
+    private final TokenRepository tokenRepository;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

@@ -8,21 +8,23 @@ import com.Library.restAPI.mapper.UserMapper;
 import com.Library.restAPI.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/auth")
-public class Auth {
+public class AuthController {
 
-    @Autowired
-    private AuthService authService;
+    private final AuthService authService;
 
     @PostMapping("/register")
     public UserDto register(
             @RequestBody RegisterRequest request,
             HttpServletResponse response
             ){
+
         return UserMapper.toDto(authService.register(request, response));
     }
 
