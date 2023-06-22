@@ -1,10 +1,8 @@
 package com.Library.restAPI.dto;
 
 import com.Library.restAPI.model.Role;
-import lombok.Builder;
 
-@Builder
-public record UserDto(
+public record UserEditAdminRequest(
         String username,
         String email,
         String name,

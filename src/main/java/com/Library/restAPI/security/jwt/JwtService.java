@@ -50,7 +50,6 @@ public class JwtService {
 
     public Long extractUserId(String token){
         Claims claims = extractAllClaims(token);
-        System.out.println(claims.get("userId"));
         return ((Integer) claims.get("userId")).longValue();
     }
 
