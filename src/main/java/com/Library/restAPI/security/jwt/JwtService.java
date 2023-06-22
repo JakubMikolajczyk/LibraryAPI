@@ -48,13 +48,19 @@ public class JwtService {
         return UUID.fromString(extractClaim(token, Claims::getId));
     }
 
+    public Long extractUserId(String token){
+        Claims claims = extractAllClaims(token);
+        System.out.println(claims.get("userId"));
+        return ((Integer) claims.get("userId")).longValue();
+    }
+
     public Collection<? extends GrantedAuthority> extractAuthority(String token) {
         Claims claims = extractAllClaims(token);
-        return Collections.singleton(new SimpleGrantedAuthority((String) claims.get("role")));
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + (String) claims.get("role")));
     }
 
     public Role extractRole(String token){
-        return Role.valueOf(((String) extractAllClaims(token).get("role")).substring(5));
+        return Role.valueOf((String) extractAllClaims(token).get("role"));
     }
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
@@ -80,19 +86,20 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    private String generateRefreshToken(UserDetails userDetails, UUID tokenId){
-        return generateToken(userDetails, tokenId, EXPIRATION_MS_REFRESH);
+    private String generateRefreshToken(User user, UUID tokenId){
+        return generateToken(user, tokenId, EXPIRATION_MS_REFRESH);
     }
-    private String generateAccessToken(UserDetails userDetails, UUID tokenId){
-        return generateToken(userDetails, tokenId, EXPIRATION_MS_ACCESS);
+    private String generateAccessToken(User user, UUID tokenId){
+        return generateToken(user, tokenId, EXPIRATION_MS_ACCESS);
     }
 
 
-    private String generateToken(UserDetails userDetails, UUID tokenId, int expiration) {
+    private String generateToken(User user, UUID tokenId, int expiration) {
         return Jwts.builder()
-                .claim("role", userDetails.getAuthorities().toArray()[0].toString())
+                .claim("role", user.getRole())
+                .claim("userId", user.getId())
                 .setId(tokenId.toString())
-                .setSubject(userDetails.getUsername())
+                .setSubject(user.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
@@ -100,8 +107,8 @@ public class JwtService {
 
     }
 
-    public Cookie generateAccessCookie(UserDetails userDetails, UUID tokenId){
-        Cookie cookie = new Cookie("accessToken", generateAccessToken(userDetails, tokenId));
+    public Cookie generateAccessCookie(User user, UUID tokenId){
+        Cookie cookie = new Cookie("accessToken", generateAccessToken(user, tokenId));
 //        cookie.setSecure(true);
         cookie.setHttpOnly(true);
         cookie.setPath("/api/v1/");
@@ -109,8 +116,8 @@ public class JwtService {
         return cookie;
     }
 
-    public Cookie generateRefreshCookie(UserDetails userDetails, UUID tokenId){
-        Cookie cookie = new Cookie("refreshToken", generateRefreshToken(userDetails, tokenId));
+    public Cookie generateRefreshCookie(User user, UUID tokenId){
+        Cookie cookie = new Cookie("refreshToken", generateRefreshToken(user, tokenId));
 //        cookie.setSecure(true);
         cookie.setHttpOnly(true);
         //TODO after add trigger for auto delete expired token, add maxAge
@@ -140,6 +147,7 @@ public class JwtService {
 
         return generateAccessCookie(User.builder()
                 .username(extractUsername(token))
+                .id(extractUserId(token))
                 .role(extractRole(token))
                 .build(), extractId(token));
     }

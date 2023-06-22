@@ -1,6 +1,7 @@
 package com.Library.restAPI.security.jwt;
 
 import com.Library.restAPI.repository.TokenRepository;
+import com.Library.restAPI.security.UsernameAndIdPrincipal;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -52,7 +53,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (jwtService.isAccessTokenValid(jwt)) {
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                    jwtService.extractUsername(jwt),
+                    new UsernameAndIdPrincipal(jwtService.extractUsername(jwt), jwtService.extractUserId(jwt)),
                     null,
                     jwtService.extractAuthority(jwt)
             );
