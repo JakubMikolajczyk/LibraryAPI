@@ -1,14 +1,15 @@
 package com.Library.restAPI.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Setter
-@Getter
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Specimen {
 
     @Id
