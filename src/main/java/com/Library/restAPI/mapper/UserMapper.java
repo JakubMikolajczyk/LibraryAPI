@@ -24,6 +24,7 @@ public class UserMapper {
                 .address(entity.getAddress())
                 .city(entity.getCity())
                 .role(entity.getRole())
+                .deleteDate(entity.getDeleteDate())
                 .build();
     }
 
@@ -56,6 +57,7 @@ public class UserMapper {
         user.setAddress(userEditAdminRequest.address());
         user.setCity(userEditAdminRequest.city());
         user.setRole(userEditAdminRequest.role());
+        user.setDeleteDate(userEditAdminRequest.deleteDate());
 
         return user;
     }

@@ -2,6 +2,8 @@ package com.Library.restAPI.dto;
 
 import com.Library.restAPI.model.Role;
 
+import java.util.Date;
+
 public record UserEditAdminRequest(
         String username,
         String email,
@@ -9,6 +11,7 @@ public record UserEditAdminRequest(
         String surname,
         String address,
         String city,
-        Role role
+        Role role,
+        Date deleteDate
 ) {
 }

@@ -2,12 +2,10 @@ package com.Library.restAPI.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 import java.util.Date;
 import java.util.List;
@@ -18,7 +16,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @SQLDelete(sql = "UPDATE book SET delete_date = now() WHERE id = ?")
-@Where(clause = "delete_date IS NULL")
 public class Book {
 
     @Id
@@ -29,7 +26,7 @@ public class Book {
     private String  tittle;
     @NotBlank
     private String ISBN;
-    @NotBlank
+    @NotNull
     private int year;
 
     @ColumnDefault("null")

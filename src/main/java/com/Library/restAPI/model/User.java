@@ -20,7 +20,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @SQLDelete(sql = "UPDATE users SET delete_date = now() WHERE id = ?")
-@Where(clause = "delete_date IS NULL")
 @Table(name = "users")
 public class User implements UserDetails {
 

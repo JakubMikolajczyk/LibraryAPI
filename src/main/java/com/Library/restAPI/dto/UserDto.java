@@ -3,6 +3,8 @@ package com.Library.restAPI.dto;
 import com.Library.restAPI.model.Role;
 import lombok.Builder;
 
+import java.util.Date;
+
 @Builder
 public record UserDto(
         String username,
@@ -11,6 +13,7 @@ public record UserDto(
         String surname,
         String address,
         String city,
-        Role role
+        Role role,
+        Date deleteDate
 ) {
 }

@@ -27,6 +27,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getAllUsersWithoutDeleted() {
+        return userRepository.findAllByDeleteDateIsNull();
+    }
+
+    @Override
     public void updateUser(User user) {
         userRepository.save(user);
     }
