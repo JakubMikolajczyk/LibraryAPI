@@ -1,15 +1,14 @@
 package com.Library.restAPI.controller;
 
 
-import com.Library.restAPI.dto.LoginRequest;
-import com.Library.restAPI.dto.RegisterRequest;
-import com.Library.restAPI.dto.UserDto;
+import com.Library.restAPI.dto.request.LoginRequest;
+import com.Library.restAPI.dto.request.RegisterRequest;
+import com.Library.restAPI.dto.response.UserDto;
 import com.Library.restAPI.mapper.UserMapper;
 import com.Library.restAPI.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor

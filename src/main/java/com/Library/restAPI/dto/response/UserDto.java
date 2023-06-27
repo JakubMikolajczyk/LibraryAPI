@@ -1,4 +1,4 @@
-package com.Library.restAPI.dto;
+package com.Library.restAPI.dto.response;
 
 import com.Library.restAPI.model.Role;
 import lombok.Builder;

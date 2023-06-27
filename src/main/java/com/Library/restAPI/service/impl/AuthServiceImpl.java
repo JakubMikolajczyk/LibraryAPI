@@ -1,8 +1,8 @@
 package com.Library.restAPI.service.impl;
 
-import com.Library.restAPI.dto.LoginRequest;
-import com.Library.restAPI.dto.PasswordChangeRequest;
-import com.Library.restAPI.dto.RegisterRequest;
+import com.Library.restAPI.dto.request.LoginRequest;
+import com.Library.restAPI.dto.request.PasswordChangeRequest;
+import com.Library.restAPI.dto.request.RegisterRequest;
 import com.Library.restAPI.model.Token;
 import com.Library.restAPI.model.User;
 import com.Library.restAPI.repository.TokenRepository;

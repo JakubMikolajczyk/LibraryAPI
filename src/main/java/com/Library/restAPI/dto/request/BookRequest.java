@@ -1,4 +1,4 @@
-package com.Library.restAPI.dto;
+package com.Library.restAPI.dto.request;
 
 import com.Library.restAPI.model.Category;
 

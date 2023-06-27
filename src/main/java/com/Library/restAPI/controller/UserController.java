@@ -1,17 +1,14 @@
 package com.Library.restAPI.controller;
 
-import com.Library.restAPI.dto.UserDto;
-import com.Library.restAPI.dto.UserEditAdminRequest;
-import com.Library.restAPI.dto.UserEditRequest;
+import com.Library.restAPI.dto.response.UserDto;
+import com.Library.restAPI.dto.request.UserEditAdminRequest;
+import com.Library.restAPI.dto.request.UserEditRequest;
 import com.Library.restAPI.mapper.UserMapper;
 import com.Library.restAPI.security.UsernameAndIdPrincipal;
 import com.Library.restAPI.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 

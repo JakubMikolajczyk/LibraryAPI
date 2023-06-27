@@ -1,9 +1,9 @@
 package com.Library.restAPI.mapper;
 
 
-import com.Library.restAPI.dto.BookDto;
-import com.Library.restAPI.dto.BookRequest;
-import com.Library.restAPI.dto.Link;
+import com.Library.restAPI.dto.response.BookDto;
+import com.Library.restAPI.dto.request.BookRequest;
+import com.Library.restAPI.dto.response.Link;
 import com.Library.restAPI.model.Author;
 import com.Library.restAPI.model.Book;
 import com.Library.restAPI.model.Category;

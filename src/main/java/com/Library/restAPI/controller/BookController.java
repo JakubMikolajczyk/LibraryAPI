@@ -1,17 +1,13 @@
 package com.Library.restAPI.controller;
 
-import com.Library.restAPI.dto.BookDto;
-import com.Library.restAPI.dto.BookRequest;
+import com.Library.restAPI.dto.response.BookDto;
+import com.Library.restAPI.dto.request.BookRequest;
 import com.Library.restAPI.mapper.BookMapper;
 import com.Library.restAPI.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController

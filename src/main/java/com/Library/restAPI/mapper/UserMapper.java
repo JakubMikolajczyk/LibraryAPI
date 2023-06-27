@@ -1,8 +1,8 @@
 package com.Library.restAPI.mapper;
 
-import com.Library.restAPI.dto.UserDto;
-import com.Library.restAPI.dto.UserEditAdminRequest;
-import com.Library.restAPI.dto.UserEditRequest;
+import com.Library.restAPI.dto.response.UserDto;
+import com.Library.restAPI.dto.request.UserEditAdminRequest;
+import com.Library.restAPI.dto.request.UserEditRequest;
 import com.Library.restAPI.model.User;
 import com.Library.restAPI.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

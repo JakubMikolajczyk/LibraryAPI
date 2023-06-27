@@ -1,4 +1,4 @@
-package com.Library.restAPI.dto;
+package com.Library.restAPI.dto.response;
 
 public record Link(Long id, String href) {
     public Link(Long id, String href) {

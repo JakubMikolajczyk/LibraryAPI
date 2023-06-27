@@ -1,15 +1,12 @@
 package com.Library.restAPI.service;
 
 
-import com.Library.restAPI.dto.LoginRequest;
-import com.Library.restAPI.dto.PasswordChangeRequest;
-import com.Library.restAPI.dto.RegisterRequest;
-import com.Library.restAPI.dto.UserDto;
+import com.Library.restAPI.dto.request.LoginRequest;
+import com.Library.restAPI.dto.request.PasswordChangeRequest;
+import com.Library.restAPI.dto.request.RegisterRequest;
 import com.Library.restAPI.model.User;
-import io.jsonwebtoken.io.IOException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 public interface AuthService {
 
