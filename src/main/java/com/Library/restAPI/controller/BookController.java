@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/books/")
+@RequestMapping("api/v1/books")
 public class BookController {
 
     private final BookService bookService;
@@ -29,17 +29,17 @@ public class BookController {
         bookService.createBook(bookMapper.toEntity(bookRequest));
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public BookDto getBookById(@PathVariable Long id){
         return bookMapper.toDto(bookService.getBookById(id));
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public void editBookById(@PathVariable Long id, @RequestBody BookRequest bookRequest){
         bookService.editBook(bookMapper.toEntity(id, bookRequest));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void deleteBookById(@PathVariable Long id){
         bookService.deleteBookById(id);
     }

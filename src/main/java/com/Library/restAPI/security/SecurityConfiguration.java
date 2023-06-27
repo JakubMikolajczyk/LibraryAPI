@@ -45,11 +45,13 @@ public class SecurityConfiguration {
                         "/swagger-ui.html",
                         "/api/v1/all",
                         "/api/v1/auth",
-                        "/api/v1/test/**",
-                        "api/v1/books/**")
+                        "/api/v1/test/**")
+                .permitAll()
+                .requestMatchers(HttpMethod.GET, "api/v1/books/**")
                 .permitAll()
                 .requestMatchers("/api/v1/users/me").hasRole("USER")
                 .requestMatchers(HttpMethod.GET, "api/v1/users/**").hasAnyRole("STAFF", "ADMIN")
+                .requestMatchers("api/v1/books/**").hasAnyRole("STAFF", "ADMIN")
                 .requestMatchers("api/v1/users/**").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
