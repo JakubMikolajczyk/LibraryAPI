@@ -1,7 +1,7 @@
 package com.Library.restAPI.controller;
 
-import com.Library.restAPI.dto.AuthorDto;
-import com.Library.restAPI.dto.AuthorRequest;
+import com.Library.restAPI.dto.response.AuthorDto;
+import com.Library.restAPI.dto.request.AuthorRequest;
 import com.Library.restAPI.mapper.AuthorMapper;
 import com.Library.restAPI.service.AuthorService;
 import lombok.RequiredArgsConstructor;

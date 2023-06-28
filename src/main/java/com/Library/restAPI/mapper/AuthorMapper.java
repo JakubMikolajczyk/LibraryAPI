@@ -1,7 +1,7 @@
 package com.Library.restAPI.mapper;
 
-import com.Library.restAPI.dto.AuthorDto;
-import com.Library.restAPI.dto.AuthorRequest;
+import com.Library.restAPI.dto.response.AuthorDto;
+import com.Library.restAPI.dto.request.AuthorRequest;
 import com.Library.restAPI.model.Author;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

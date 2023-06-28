@@ -22,7 +22,6 @@ public class BookMapper {
 
     private final AuthorRepository authorRepository;
     private final CategoryRepository categoryRepository;
-    private final BookRepository bookRepository;
 
     public BookDto toDto(Book book){
         return BookDto.builder()
@@ -42,9 +41,9 @@ public class BookMapper {
     }
 
     public Book toEntity(Long id, BookRequest bookRequest){
-        Book bookFromDB = bookRepository.findById(id)
-                .orElseThrow(RuntimeException::new);    //TODO Exception
-        return toEntity(bookFromDB, bookRequest);
+        Book book = toEntity(bookRequest);
+        book.setId(id);
+        return book;
     }
 
     public Book toEntity(BookRequest bookRequest){
@@ -65,24 +64,5 @@ public class BookMapper {
                 .author(authorFromDB)
                 .categories(categories)
                 .build();
-    }
-
-    private Book toEntity(Book book, BookRequest bookRequest){
-        Author authorFromDB = bookRequest.authorId() == null? null:
-                authorRepository.getReferenceById(bookRequest.authorId());
-
-        List<Category> categories = bookRequest.categoriesId() == null? null:
-                bookRequest.categoriesId()
-                        .stream()
-                        .map(categoryRepository::getReferenceById)
-                        .toList();
-
-        book.setTittle(bookRequest.tittle());
-        book.setISBN(bookRequest.ISBN());
-        book.setYear(bookRequest.year());
-        book.setDeleteDate(bookRequest.deleteDate());
-        book.setAuthor(authorFromDB);
-        book.setCategories(categories);
-        return book;
     }
 }
