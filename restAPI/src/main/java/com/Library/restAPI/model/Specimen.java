@@ -16,11 +16,12 @@ public class Specimen {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private Book book;
 
-    // Optional
-    @OneToOne(mappedBy = "specimen", fetch = FetchType.LAZY)
-    private Borrow borrow;
+    //Make unnecessary select we can still get Borrow using specimen id
+//    @OneToOne(mappedBy = "specimen", fetch = FetchType.LAZY)
+//    private Borrow borrow;
+
 }

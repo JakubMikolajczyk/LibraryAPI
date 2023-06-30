@@ -46,9 +46,8 @@ CREATE TABLE specimen(
 );
 
 CREATE TABLE borrow(
-    id          serial PRIMARY KEY ,
+    specimen_id integer PRIMARY KEY REFERENCES specimen(id),
     book_id     integer REFERENCES book(id),
-    specimen_id integer REFERENCES specimen(id),
     user_id     integer REFERENCES users(id),
     start_time  timestamp DEFAULT now()
 );
