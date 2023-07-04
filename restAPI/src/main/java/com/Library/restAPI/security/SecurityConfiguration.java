@@ -49,13 +49,15 @@ public class SecurityConfiguration {
                 .permitAll()
                 .requestMatchers(HttpMethod.GET, "api/v1/books/**",
                         "api/v1/authors/**",
-                        "api/v1/categories/**")
+                        "api/v1/categories/**",
+                        "api/v1/specimens/**")
                 .permitAll()
                 .requestMatchers("/api/v1/users/me").hasRole("USER")
                 .requestMatchers(HttpMethod.GET, "api/v1/users/**").hasAnyRole("STAFF", "ADMIN")
                 .requestMatchers("api/v1/books/**",
                         "api/v1/authors/**",
-                        "api/v1/categories/**").hasAnyRole("STAFF", "ADMIN")
+                        "api/v1/categories/**",
+                        "api/v1/specimens/**").hasAnyRole("STAFF", "ADMIN")
                 .requestMatchers("api/v1/users/**").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
