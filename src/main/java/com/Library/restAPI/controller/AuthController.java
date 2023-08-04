@@ -20,19 +20,12 @@ public class AuthController {
     private final UserMapper userMapper;
 
     @PostMapping("/register")
-    public UserDto register(
-            @RequestBody RegisterRequest request,
-            HttpServletResponse response
-            ){
-
-        return userMapper.toDto(authService.register(request, response));
+    public void register(@RequestBody RegisterRequest request){
+        authService.register(request);
     }
 
     @PostMapping("/login")
-    public UserDto login(
-            @RequestBody LoginRequest request,
-            HttpServletResponse response
-            ){
+    public UserDto login(@RequestBody LoginRequest request, HttpServletResponse response){
         return userMapper.toDto(authService.login(request, response));
 
     }
@@ -42,4 +35,8 @@ public class AuthController {
         return userMapper.toDto(authService.refreshToken(request, response));
     }
 
+    @PostMapping("/logout")
+    public void logout(HttpServletRequest request, HttpServletResponse response){
+        authService.logout(request, response);
+    }
 }

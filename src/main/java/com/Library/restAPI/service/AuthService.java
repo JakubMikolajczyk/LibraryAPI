@@ -11,7 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 public interface AuthService {
 
         User login(LoginRequest loginRequest, HttpServletResponse response);
-        User register(RegisterRequest registerRequest, HttpServletResponse response);
+        void register(RegisterRequest registerRequest);
+        void logout(HttpServletRequest request, HttpServletResponse response);
         void logoutAll(User user);
         void changePassword(Long id, PasswordChangeRequest passwordChangeRequest, HttpServletResponse response);
         User refreshToken(HttpServletRequest request, HttpServletResponse response);

@@ -27,6 +27,7 @@ After run server you can see [swagger documentation](http://localhost:8080/swagg
 ### Everyone:
 * POST api/v1/login
 * POST api/v1/register
+* POST api/v1/logout
 * GET api/v1/refresh-token
 ---
 * GET api/v1/books

@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -38,28 +39,26 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public User login(LoginRequest loginRequest, HttpServletResponse response) {
-
-
-        User user = userRepository.findByUsername(loginRequest.username())
+        User user = userRepository
+                .findByUsername(loginRequest.username())
                 .orElseThrow(WrongUsernameException::new);
 
         boolean match = passwordEncoder.matches(loginRequest.password(), user.getPassword());
-
         if (!match)
             throw new WrongPasswordException();
-     UUID tokenId = UUID.randomUUID();   //Low probability of duplicate
+
+        UUID tokenId = UUID.randomUUID();   //Low probability of duplicate
         Cookie refreshCookie = jwtService.generateRefreshCookie(user, tokenId);
         saveUserToken(user, refreshCookie.getValue());
-
         response.addCookie(refreshCookie);
-        response.addCookie(jwtService.generateAccessCookie(user,tokenId));
+        response.addCookie(jwtService.generateAccessCookie(user, tokenId));
 
         return user;
 
     }
 
     @Override
-    public User register(RegisterRequest registerRequest, HttpServletResponse response) {
+    public void register(RegisterRequest registerRequest) {
         User user = User.builder()
                 .username(registerRequest.username())
                 .password(passwordEncoder.encode(registerRequest.password()))
@@ -70,17 +69,15 @@ public class AuthServiceImpl implements AuthService {
                 .city(registerRequest.city())
                 .build();
 
-        User savedUser = userRepository.save(user);
-        UUID tokenId = UUID.randomUUID();   //Low probability of duplicate
-        Cookie refreshCookie = jwtService.generateRefreshCookie(savedUser, tokenId);
-        saveUserToken(savedUser, refreshCookie.getValue());
-
-        response.addCookie(refreshCookie);
-        response.addCookie(jwtService.generateAccessCookie(savedUser, tokenId));
-
-        return savedUser;
+        userRepository.save(user);
     }
 
+    @Override
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
+        getCookieByName(request, "refreshToken")
+                .ifPresent(cookie -> tokenRepository.deleteById(jwtService.extractId(cookie.getValue())));
+        deleteCookies(response);
+    }
 
     @Override
     public void logoutAll(User user) {
@@ -91,7 +88,8 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public void changePassword(Long id, PasswordChangeRequest passwordChangeRequest,
                                HttpServletResponse response) {
-        User user = userRepository.findById(id)
+        User user = userRepository
+                .findById(id)
                 .orElseThrow(UserNotFoundException::new);
         boolean match = passwordEncoder.matches(passwordChangeRequest.oldPassword(), user.getPassword());
 
@@ -101,41 +99,24 @@ public class AuthServiceImpl implements AuthService {
         user.setPassword(passwordEncoder.encode(passwordChangeRequest.newPassword()));
         User savedUser = userRepository.save(user);
         logoutAll(savedUser);
-
-        response.addCookie(jwtService.deleteAccessCookie());
-        response.addCookie(jwtService.deleteRefreshToken());
+        deleteCookies(response);
     }
 
     @Override
     public User refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String jwt = getCookieByName(request, "refreshToken")
+                .orElseThrow(TokenNotFoundException::new)
+                .getValue();
 
-        Cookie[] cookies = request.getCookies();
-
-        if (cookies == null){
-            throw new TokenNotFoundException();
-        }
-
-        Cookie cookie = Arrays.stream(request.getCookies())
-                .filter(cookie1 -> cookie1.getName().equals("refreshToken"))
-                .findFirst()
-                .orElse(null);
-
-
-        if (cookie == null){
-            throw new TokenNotFoundException();
-        }
-
-        String jwt = cookie.getValue();
-        Token tokenFromDB = tokenRepository.findTokenByIdAndExpireDateGreaterThan(jwtService.extractId(jwt), new Date())
+        Token tokenFromDB = tokenRepository
+                .findTokenByIdAndExpireDateGreaterThan(jwtService.extractId(jwt), new Date())
                 .orElseThrow(TokenNotFoundException::new);
-
         response.addCookie(jwtService.generateAccessCookieFromToken(jwt));
 
         return tokenFromDB.getUser();
     }
 
-    private void saveUserToken(User user, String jwtToken){
-
+    private void saveUserToken(User user, String jwtToken) {
         Token token = Token
                 .builder()
                 .user(user)
@@ -146,4 +127,18 @@ public class AuthServiceImpl implements AuthService {
         tokenRepository.save(token);
     }
 
+    private Optional<Cookie> getCookieByName(HttpServletRequest request, String name) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null)
+            return Optional.empty();
+
+        return Arrays.stream(cookies)
+                .filter(cookie1 -> cookie1.getName().equals(name))
+                .findFirst();
+    }
+
+    private void deleteCookies(HttpServletResponse response) {
+        response.addCookie(jwtService.deleteAccessCookie());
+        response.addCookie(jwtService.deleteRefreshToken());
+    }
 }
