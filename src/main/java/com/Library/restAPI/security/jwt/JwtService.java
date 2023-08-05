@@ -10,6 +10,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,10 +18,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
@@ -158,5 +156,15 @@ public class JwtService {
 
     public boolean isAccessTokenValid(String token){
         return !isExpired(token);
+    }
+
+    public Optional<Cookie> getCookieByName(HttpServletRequest request, String name) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null)
+            return Optional.empty();
+
+        return Arrays.stream(cookies)
+                .filter(cookie1 -> cookie1.getName().equals(name))
+                .findFirst();
     }
 }

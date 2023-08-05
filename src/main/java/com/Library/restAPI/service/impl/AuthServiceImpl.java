@@ -22,9 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.Date;
-import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -74,7 +72,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response) {
-        getCookieByName(request, "refreshToken")
+        jwtService
+                .getCookieByName(request, "refreshToken")
                 .ifPresent(cookie -> tokenRepository.deleteById(jwtService.extractId(cookie.getValue())));
         deleteCookies(response);
     }
@@ -104,7 +103,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public User refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String jwt = getCookieByName(request, "refreshToken")
+        String jwt = jwtService
+                .getCookieByName(request, "refreshToken")
                 .orElseThrow(TokenNotFoundException::new)
                 .getValue();
 
@@ -125,16 +125,6 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         tokenRepository.save(token);
-    }
-
-    private Optional<Cookie> getCookieByName(HttpServletRequest request, String name) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies == null)
-            return Optional.empty();
-
-        return Arrays.stream(cookies)
-                .filter(cookie1 -> cookie1.getName().equals(name))
-                .findFirst();
     }
 
     private void deleteCookies(HttpServletResponse response) {

@@ -4,7 +4,6 @@ import com.Library.restAPI.exception.TokenNotFoundException;
 import com.Library.restAPI.security.UsernameAndIdPrincipal;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -26,19 +24,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        Cookie[] cookies = request.getCookies();
-
-        if (cookies == null) {
-            throw new TokenNotFoundException();
-        }
-
-        Cookie cookie = Arrays.stream(request.getCookies())
-                .filter(cookie1 -> cookie1.getName().equals("accessToken"))
-                .findFirst()
-                .orElseThrow(TokenNotFoundException::new);
-
-
-        String jwt = cookie.getValue();
+        String jwt = jwtService
+                .getCookieByName(request, "accessToken")
+                .orElseThrow(TokenNotFoundException::new)
+                .getValue();
 
         if (jwtService.isAccessTokenValid(jwt)) {
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
