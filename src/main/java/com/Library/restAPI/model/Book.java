@@ -34,6 +34,7 @@ public class Book {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
+    @NotNull
     private Author author;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)

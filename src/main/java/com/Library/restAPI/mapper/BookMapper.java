@@ -4,6 +4,7 @@ package com.Library.restAPI.mapper;
 import com.Library.restAPI.dto.response.BookDto;
 import com.Library.restAPI.dto.request.BookRequest;
 import com.Library.restAPI.dto.response.Link;
+import com.Library.restAPI.exception.AuthorNotFoundException;
 import com.Library.restAPI.model.Author;
 import com.Library.restAPI.model.Book;
 import com.Library.restAPI.model.Category;
@@ -46,8 +47,9 @@ public class BookMapper {
     }
 
     public Book toEntity(BookRequest bookRequest){
-        Author authorFromDB = bookRequest.authorId() == null? null:
-                authorRepository.getReferenceById(bookRequest.authorId());
+        if (bookRequest.authorId() == null)
+            throw new AuthorNotFoundException();
+        Author authorFromDB = authorRepository.getReferenceById(bookRequest.authorId());
 
         List<Category> categories = bookRequest.categoriesId() == null? null:
                 bookRequest.categoriesId()
