@@ -3,7 +3,6 @@ package com.Library.restAPI.mapper;
 import com.Library.restAPI.dto.request.BorrowRequest;
 import com.Library.restAPI.dto.request.BorrowUsernameRequest;
 import com.Library.restAPI.dto.response.BorrowDto;
-import com.Library.restAPI.dto.response.Link;
 import com.Library.restAPI.exception.BorrowedException;
 import com.Library.restAPI.exception.SpecimenNotFoundException;
 import com.Library.restAPI.exception.WrongUsernameException;
@@ -26,8 +25,8 @@ public class BorrowMapper {
     public BorrowDto toDto(SpecimenBorrow specimenBorrow){
         return BorrowDto.builder()
                 .id(specimenBorrow.getId())
-                .book(new Link(specimenBorrow.getBook().getId(), "api/v1/books/"))
-                .user(new Link(specimenBorrow.getUser().getId(), "api/v1/users/"))
+                .book(LinkMapper.toLink(specimenBorrow.getBook()))
+                .user(LinkMapper.toLink(specimenBorrow.getUser()))
                 .start(specimenBorrow.getStartTime())
                 .build();
     }

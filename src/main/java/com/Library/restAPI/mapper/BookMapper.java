@@ -3,7 +3,6 @@ package com.Library.restAPI.mapper;
 
 import com.Library.restAPI.dto.response.BookDto;
 import com.Library.restAPI.dto.request.BookRequest;
-import com.Library.restAPI.dto.response.Link;
 import com.Library.restAPI.exception.AuthorNotFoundException;
 import com.Library.restAPI.model.Author;
 import com.Library.restAPI.model.Book;
@@ -30,12 +29,10 @@ public class BookMapper {
                 .ISBN(book.getISBN())
                 .year(book.getYear())
                 .deleteDate(book.getDeleteDate())
-                .author(book.getAuthor() == null ?
-                        null
-                        : new Link(book.getAuthor().getId(), "/api/v1/authors/"))
+                .author(LinkMapper.toLink(book.getAuthor()))
                 .categories(book.getCategories()
                         .stream()
-                        .map(category -> new Link(category.getId(), "/api/v1/categories/"))
+                        .map(LinkMapper::toLink)
                         .collect(Collectors.toList()))
                 .build();
     }

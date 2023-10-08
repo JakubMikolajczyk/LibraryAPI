@@ -1,7 +1,6 @@
 package com.Library.restAPI.mapper;
 
 import com.Library.restAPI.dto.request.SpecimenRequest;
-import com.Library.restAPI.dto.response.Link;
 import com.Library.restAPI.dto.response.SpecimenDto;
 import com.Library.restAPI.model.SpecimenBorrow;
 import com.Library.restAPI.repository.BookRepository;
@@ -16,7 +15,7 @@ public class SpecimenMapper {
     public SpecimenDto toDto(SpecimenBorrow specimenBorrow){
         return SpecimenDto.builder()
                 .id(specimenBorrow.getId())
-                .book(new Link(specimenBorrow.getBook().getId(), "api/v1/books/"))
+                .book(LinkMapper.toLink(specimenBorrow.getBook()))
                 .isBorrowed(specimenBorrow.getUser() != null)
                 .build();
     }

@@ -2,7 +2,6 @@ package com.Library.restAPI.mapper;
 
 import com.Library.restAPI.dto.request.CategoryRequest;
 import com.Library.restAPI.dto.response.CategoryDto;
-import com.Library.restAPI.dto.response.Link;
 import com.Library.restAPI.model.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -19,7 +18,7 @@ public class CategoryMapper {
                 .name(category.getName())
                 .books(category.getBooks()
                         .stream()
-                        .map(book -> new Link(book.getId(), "/api/v1/books/"))
+                        .map(LinkMapper::toLink)
                         .collect(Collectors.toList()))
                 .build();
     }
