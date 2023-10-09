@@ -1,6 +1,11 @@
 package com.Library.restAPI.controller;
 
+import com.Library.restAPI.dto.response.DataErrorDto;
+import com.Library.restAPI.dto.response.Link;
 import com.Library.restAPI.exception.*;
+import com.Library.restAPI.mapper.LinkMapper;
+import com.Library.restAPI.model.Author;
+import jakarta.validation.ConstraintViolationException;
 import org.springdoc.api.ErrorMessage;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -8,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.List;
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -65,6 +72,27 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BorrowedException.class)
     public ResponseEntity<ErrorMessage> deleteBorrowed(){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorMessage("Specimen is borrowed."));
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<List<DataErrorDto>> constraintViolation(ConstraintViolationException exception){
+        List<DataErrorDto> list = exception
+                .getConstraintViolations()
+                .stream()
+                .map(ex -> DataErrorDto.builder()
+                        .field(ex.getPropertyPath().toString())
+                        .message(ex.getMessage())
+                        .build())
+                .toList();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(list);
+    }
+
+    @ExceptionHandler(AuthorDeleteException.class)
+    public ResponseEntity<List<Link>> authorDelete(AuthorDeleteException exception){
+        Author authorFromException = exception.getAuthor();
+        List<Link> links = authorFromException.getBooks().stream().map(LinkMapper::toLink).toList();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(links);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)

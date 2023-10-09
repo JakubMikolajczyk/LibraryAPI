@@ -1,7 +1,6 @@
-package com.Library.restAPI.security.jwt;
+package com.Library.restAPI.security;
 
 import com.Library.restAPI.exception.TokenNotFoundException;
-import com.Library.restAPI.security.UsernameAndIdPrincipal;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

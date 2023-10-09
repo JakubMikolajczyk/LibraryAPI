@@ -1,8 +1,7 @@
-package com.Library.restAPI.security.jwt;
+package com.Library.restAPI.security;
 
 import com.Library.restAPI.model.Role;
 import com.Library.restAPI.model.User;
-import com.Library.restAPI.repository.TokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -33,8 +32,6 @@ public class JwtService {
 
     @Value("${library.app.jwtExpirationMsAccess}")
     private int EXPIRATION_MS_ACCESS = 1000 * 60 * 5;
-
-    private final TokenRepository tokenRepository;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
