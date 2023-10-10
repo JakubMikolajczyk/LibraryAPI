@@ -1,12 +1,13 @@
 package com.Library.restAPI.controller;
 
-import com.Library.restAPI.dto.response.AuthorDto;
 import com.Library.restAPI.dto.request.AuthorRequest;
+import com.Library.restAPI.dto.response.AuthorDto;
 import com.Library.restAPI.mapper.AuthorMapper;
 import com.Library.restAPI.service.AuthorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -17,14 +18,14 @@ public class AuthorController {
     private final AuthorService authorService;
     private final AuthorMapper authorMapper;
 
-    @GetMapping
-    public Page<AuthorDto> getAllAuthors(Pageable pageable){
-        return authorService.getAll(pageable).map(authorMapper::toDto);
-    }
-
     @GetMapping("/{id}")
     public AuthorDto getAuthor(@PathVariable Long id){
-        return authorMapper.toDto(authorService.getAuthorById(id));
+        return AuthorMapper.toDto(authorService.getAuthorById(id));
+    }
+
+    @GetMapping
+    public Page<AuthorDto> getAllAuthors(@PageableDefault(sort = "id", value = 50) Pageable pageable){
+        return authorService.getAll(pageable).map(AuthorMapper::toDto);
     }
     
     @PostMapping
@@ -38,7 +39,7 @@ public class AuthorController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAuthor(@PathVariable Long id){//TODO if throw return reference books (links)
+    public void deleteAuthor(@PathVariable Long id){
         authorService.deleteAuthor(id);
     }
 }

@@ -1,10 +1,7 @@
-package com.Library.restAPI.controller;
+package com.Library.restAPI.exceptionHandler;
 
 import com.Library.restAPI.dto.response.DataErrorDto;
-import com.Library.restAPI.dto.response.Link;
 import com.Library.restAPI.exception.*;
-import com.Library.restAPI.mapper.LinkMapper;
-import com.Library.restAPI.model.Author;
 import jakarta.validation.ConstraintViolationException;
 import org.springdoc.api.ErrorMessage;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -44,11 +41,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage("Book not found."));
     }
 
-    @ExceptionHandler(AuthorNotFoundException.class)
-    public ResponseEntity<ErrorMessage> authorNotFound(){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage("Author not found."));
-    }
-
     @ExceptionHandler(CategoryNotFoundException.class)
     public ResponseEntity<ErrorMessage> categoryNotFound(){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage("Category not found."));
@@ -86,13 +78,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .toList();
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(list);
-    }
-
-    @ExceptionHandler(AuthorDeleteException.class)
-    public ResponseEntity<List<Link>> authorDelete(AuthorDeleteException exception){
-        Author authorFromException = exception.getAuthor();
-        List<Link> links = authorFromException.getBooks().stream().map(LinkMapper::toLink).toList();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(links);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)

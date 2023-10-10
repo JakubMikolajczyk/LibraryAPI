@@ -1,8 +1,12 @@
 package com.Library.restAPI.model;
 
+import com.Library.restAPI.validator.Name;
+import com.Library.restAPI.validator.Surname;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -17,9 +21,9 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @Name
     private String name;
-    @NotBlank
+    @Surname
     private String surname;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
