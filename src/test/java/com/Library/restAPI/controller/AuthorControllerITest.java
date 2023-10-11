@@ -1,6 +1,7 @@
 package com.Library.restAPI.controller;
 
 import com.Library.restAPI.CookieProvider;
+import com.Library.restAPI.config.ApplicationConfig;
 import com.Library.restAPI.config.SecurityConfiguration;
 import com.Library.restAPI.dto.request.AuthorRequest;
 import com.Library.restAPI.exception.AuthorDeleteException;
@@ -42,9 +43,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = {
         AuthorController.class,
-        GlobalExceptionHandler.class,
-        AuthorExceptionHandler.class,
-        SecurityConfiguration.class
+        SecurityConfiguration.class,
+        ApplicationConfig.class
 })
 class AuthorControllerITest {
 
