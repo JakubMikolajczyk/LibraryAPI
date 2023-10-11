@@ -4,7 +4,6 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullSource;
@@ -15,10 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AuthorTest {
 
-    private Validator validator;
+    private final Validator validator;
 
-    @BeforeEach
-    public void setUp() {
+    public AuthorTest() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
     }
@@ -26,10 +24,13 @@ class AuthorTest {
     @ParameterizedTest
     @MethodSource("com.Library.restAPI.StringsProvider#okNames")
     void authorNameSuccess(String name){
+        //given
         Author author = Author.builder()
                 .name(name)
                 .surname("Test").build();
+        //when
         Set<ConstraintViolation<Author>> violationSet = validator.validate(author);
+        //then
         assertTrue(violationSet.isEmpty());
     }
 
@@ -37,11 +38,14 @@ class AuthorTest {
     @NullSource
     @MethodSource("com.Library.restAPI.StringsProvider#wrongNames")
     void authorWrongNameFail(String name){
+        //given
         Author author = Author.builder()
                 .name(name)
                 .surname("Test")
                 .build();
+        //when
         Set<ConstraintViolation<Author>> violationSet = validator.validate(author);
+        //then
         assertFalse(violationSet.isEmpty());
         assertEquals(1, violationSet.size());
     }
@@ -49,10 +53,13 @@ class AuthorTest {
     @ParameterizedTest
     @MethodSource("com.Library.restAPI.StringsProvider#okSurnames")
     void authorSurnameSuccess(String surname){
+        //given
         Author author = Author.builder()
                 .name("Test")
                 .surname(surname).build();
+        //when
         Set<ConstraintViolation<Author>> violationSet = validator.validate(author);
+        //then
         assertTrue(violationSet.isEmpty());
     }
 
@@ -60,11 +67,14 @@ class AuthorTest {
     @NullSource
     @MethodSource("com.Library.restAPI.StringsProvider#wrongSurnames")
     void authorWrongSurnameFail(String surname){
+        //given
         Author author = Author.builder()
                 .name("Test")
                 .surname(surname)
                 .build();
+        //when
         Set<ConstraintViolation<Author>> violationSet = validator.validate(author);
+        //then
         assertFalse(violationSet.isEmpty());
         assertEquals(1, violationSet.size());
 
