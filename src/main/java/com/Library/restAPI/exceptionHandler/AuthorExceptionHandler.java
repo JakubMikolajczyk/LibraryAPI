@@ -29,5 +29,4 @@ public class AuthorExceptionHandler extends ResponseEntityExceptionHandler {
         List<Link> links = authorFromException.getBooks().stream().map(LinkMapper::toLink).toList();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(links);
     }
-
 }
