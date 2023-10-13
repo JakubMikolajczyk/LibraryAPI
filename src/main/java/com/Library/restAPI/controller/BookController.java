@@ -1,7 +1,7 @@
 package com.Library.restAPI.controller;
 
-import com.Library.restAPI.dto.response.BookDto;
 import com.Library.restAPI.dto.request.BookRequest;
+import com.Library.restAPI.dto.response.BookDto;
 import com.Library.restAPI.dto.response.BorrowDto;
 import com.Library.restAPI.dto.response.BorrowHistoryDto;
 import com.Library.restAPI.dto.response.SpecimenDto;
@@ -12,7 +12,6 @@ import com.Library.restAPI.mapper.SpecimenMapper;
 import com.Library.restAPI.service.BookService;
 import com.Library.restAPI.service.BorrowHistoryService;
 import com.Library.restAPI.service.BorrowService;
-import com.Library.restAPI.service.SpecimenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +26,6 @@ import java.util.stream.Collectors;
 public class BookController {
 
     private final BookService bookService;
-    private final SpecimenService specimenService;
     private final BorrowService borrowService;
     private final BorrowHistoryService borrowHistoryService;
     private final BookMapper bookMapper;
@@ -60,30 +58,14 @@ public class BookController {
         bookService.deleteBookById(id);
     }
 
-    //1 select query, return empty list if parent book not exists
     @GetMapping("/{bookId}/specimens")
     public List<SpecimenDto> getSpecimenByBookId(@PathVariable Long bookId){
-        return specimenService
-                .getSpecimenByBookId(bookId)
+        return bookService
+                .getBookById(bookId)
+                .getSpecimenBorrows()
                 .stream()
                 .map(specimenMapper::toDto)
                 .collect(Collectors.toList());
-    }
-
-//    throw 404 if book not exist, but 2 select query
-//    @GetMapping("/{bookId}/specimens")
-//    public List<SpecimenDto> getSpecimenByBookIdv2(@PathVariable Long bookId){
-//        return bookService
-//                .getBookById(bookId)
-//                .getSpecimenBorrows()
-//                .stream()
-//                .map(specimenMapper::toDto)
-//                .collect(Collectors.toList());
-//    }
-
-    @PostMapping("/{bookId}/specimens")
-    public void createSpecimenByBookId(@PathVariable Long bookId){
-        specimenService.createSpecimen(specimenMapper.toEntity(bookId));
     }
 
     @GetMapping("/{bookId}/borrows")

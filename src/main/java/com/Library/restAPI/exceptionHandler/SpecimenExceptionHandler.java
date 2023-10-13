@@ -1,7 +1,7 @@
 package com.Library.restAPI.exceptionHandler;
 
 import com.Library.restAPI.dto.response.Link;
-import com.Library.restAPI.exception.BorrowedException;
+import com.Library.restAPI.exception.SpecimenDeleteException;
 import com.Library.restAPI.exception.SpecimenNotFoundException;
 import com.Library.restAPI.mapper.LinkMapper;
 import org.springdoc.api.ErrorMessage;
@@ -19,8 +19,8 @@ public class SpecimenExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage("Specimen not found."));
     }
 
-    @ExceptionHandler(BorrowedException.class)
-    public ResponseEntity<Link> deleteBorrowed(BorrowedException exception){
+    @ExceptionHandler(SpecimenDeleteException.class)
+    public ResponseEntity<Link> deleteBorrowed(SpecimenDeleteException exception){
         Link userLink = LinkMapper.toLink(exception.getSpecimenBorrow().getUser());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(userLink);
     }

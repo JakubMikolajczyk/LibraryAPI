@@ -30,7 +30,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorMessage> badData(IllegalArgumentException ex){
+    public ResponseEntity<ErrorMessage> illegalArgument(IllegalArgumentException ex){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorMessage("msg: " + ex.getMessage() + "  test:" + ex.getLocalizedMessage()));
     }
 

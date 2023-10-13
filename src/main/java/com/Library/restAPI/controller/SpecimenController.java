@@ -12,13 +12,18 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/specimens")
+@RequestMapping("api/v1/")
 public class SpecimenController {
 
     private final SpecimenService specimenService;
     private final SpecimenMapper specimenMapper;
 
-    @GetMapping
+    @GetMapping("specimens/{id}")
+    public SpecimenDto getSpecimenById(@PathVariable Long id){
+        return specimenMapper.toDto(specimenService.getSpecimenById(id));
+    }
+
+    @GetMapping("specimens")
     public List<SpecimenDto> getAllSpecimen(){
         return specimenService
                 .getAllSpecimen()
@@ -27,17 +32,17 @@ public class SpecimenController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{id}")
-    public SpecimenDto getSpecimenById(@PathVariable Long id){
-        return specimenMapper.toDto(specimenService.getSpecimenById(id));
-    }
-
-    @PostMapping
+    @PostMapping("specimens")
     public void createSpecimen(@RequestBody SpecimenRequest specimenRequest){
         specimenService.createSpecimen(specimenMapper.toEntity(specimenRequest));
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("books/{bookId}/specimens")
+    public void createSpecimenByBookId(@PathVariable Long bookId){
+        specimenService.createSpecimen(specimenMapper.toEntity(bookId));
+    }
+
+    @DeleteMapping("specimens/{id}")
     public void deleteSpecimen(@PathVariable Long id){
         specimenService.deleteSpecimenById(id);
     }

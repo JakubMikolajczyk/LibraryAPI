@@ -47,7 +47,7 @@ public class BorrowMapper {
                 .orElseThrow(SpecimenNotFoundException::new);
 
         if (fromDb.getUser() != null)
-            throw new BorrowedException();
+            throw new BorrowedException(fromDb);
 
         fromDb.setUser(user);
         fromDb.setStartTime(new Date());

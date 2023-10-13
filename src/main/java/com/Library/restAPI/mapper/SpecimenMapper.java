@@ -21,9 +21,7 @@ public class SpecimenMapper {
     }
 
     public SpecimenBorrow toEntity(SpecimenRequest specimenRequest){
-        return SpecimenBorrow.builder()
-                .book(bookRepository.getReferenceById(specimenRequest.bookId()))
-                .build();
+        return toEntity(specimenRequest.bookId());
     }
 
     public SpecimenBorrow toEntity(Long bookId){

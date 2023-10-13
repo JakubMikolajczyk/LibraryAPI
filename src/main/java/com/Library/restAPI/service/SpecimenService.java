@@ -10,8 +10,6 @@ public interface SpecimenService {
 
     SpecimenBorrow getSpecimenById(Long id);
     List<SpecimenBorrow> getAllSpecimen();
-    List<SpecimenBorrow> getSpecimenByBookId(Long bookId);
-
     void createSpecimen(SpecimenBorrow specimenBorrow);
     void deleteSpecimenById(Long id);
 }
