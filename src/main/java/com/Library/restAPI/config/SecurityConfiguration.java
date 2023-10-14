@@ -27,7 +27,7 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.GET, "api/v1/users/**").hasAnyRole("STAFF", "ADMIN")
                 .requestMatchers("api/v1/books/**",
                         "api/v1/authors/**",
-                        "api/v1/categories/**",
+                        "api/v1/genres/**",
                         "api/v1/specimens/**",
                         "api/v1/borrows/**",
                         "api/v1/borrowHistories/**").hasAnyRole("STAFF", "ADMIN")
@@ -64,7 +64,7 @@ public class SecurityConfiguration {
                         "api/v1/books/*",
                         "api/v1/books/*/specimens",
                         "api/v1/authors/**",
-                        "api/v1/categories/**",
+                        "api/v1/genres/**",
                         "api/v1/specimens/**");
     }
 }

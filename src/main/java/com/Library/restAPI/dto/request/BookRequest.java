@@ -9,5 +9,5 @@ public record BookRequest (
         int year,
         Date deleteDate,
         Long authorId,
-        List<Long> categoriesId
+        List<Long> genresId
 ){}

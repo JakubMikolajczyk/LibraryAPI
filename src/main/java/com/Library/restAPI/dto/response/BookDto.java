@@ -13,5 +13,5 @@ public record BookDto(
     int year,
     Date deleteDate,
     Link author,
-    List<Link> categories
+    List<Link> genres
 ) {}

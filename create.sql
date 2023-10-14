@@ -20,7 +20,7 @@ CREATE TABLE author(
     surname varchar(30) NOT NULL
 );
 
-CREATE TABLE category(
+CREATE TABLE genre(
     id          serial PRIMARY KEY,
     name        varchar(30) NOT NULL
 );
@@ -34,10 +34,10 @@ CREATE Table book(
     delete_date timestamp DEFAULT null
 );
 
-CREATE Table book_category(
+CREATE Table book_genre(
     book_id integer REFERENCES book(id),
-    category_id integer REFERENCES category(id),
-    PRIMARY KEY (book_id, category_id)
+    genre_id integer REFERENCES genre(id),
+    PRIMARY KEY (book_id, genre_id)
 );
 
 

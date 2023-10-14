@@ -5,7 +5,7 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public record CategoryDto (
+public record GenreDto(
         Long id,
         String name,
         List<Link> books

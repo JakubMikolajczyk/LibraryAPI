@@ -3,7 +3,10 @@ package com.Library.restAPI.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
 
@@ -39,24 +42,24 @@ public class Book {
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(
-            name = "book_category",
+            name = "book_genre",
             joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
-    private List<Category> categories;
+    private List<Genre> genres;
 
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
     private List<SpecimenBorrow> specimenBorrows;
 
 
-    public void addCategory(Category category){
-        this.categories.add(category);
-        category.getBooks().add(this);
+    public void addGenre(Genre genre){
+        this.genres.add(genre);
+        genre.getBooks().add(this);
     }
 
-    public void removeCategory(Category category){
-        this.categories.remove(category);
-        category.getBooks().remove(this);
+    public void removeGenre(Genre genre){
+        this.genres.remove(genre);
+        genre.getBooks().remove(this);
     }
 }

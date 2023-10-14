@@ -1,14 +1,14 @@
 package com.Library.restAPI.mapper;
 
 
-import com.Library.restAPI.dto.response.BookDto;
 import com.Library.restAPI.dto.request.BookRequest;
+import com.Library.restAPI.dto.response.BookDto;
 import com.Library.restAPI.exception.AuthorNotFoundException;
 import com.Library.restAPI.model.Author;
 import com.Library.restAPI.model.Book;
-import com.Library.restAPI.model.Category;
+import com.Library.restAPI.model.Genre;
 import com.Library.restAPI.repository.AuthorRepository;
-import com.Library.restAPI.repository.CategoryRepository;
+import com.Library.restAPI.repository.GenreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class BookMapper {
 
     private final AuthorRepository authorRepository;
-    private final CategoryRepository categoryRepository;
+    private final GenreRepository genreRepository;
 
     public BookDto toDto(Book book){
         return BookDto.builder()
@@ -30,7 +30,7 @@ public class BookMapper {
                 .year(book.getYear())
                 .deleteDate(book.getDeleteDate())
                 .author(LinkMapper.toLink(book.getAuthor()))
-                .categories(book.getCategories()
+                .genres(book.getGenres()
                         .stream()
                         .map(LinkMapper::toLink)
                         .collect(Collectors.toList()))
@@ -48,10 +48,10 @@ public class BookMapper {
             throw new AuthorNotFoundException();
         Author authorFromDB = authorRepository.getReferenceById(bookRequest.authorId());
 
-        List<Category> categories = bookRequest.categoriesId() == null? null:
-                bookRequest.categoriesId()
+        List<Genre> genres = bookRequest.genresId() == null? null:
+                bookRequest.genresId()
                         .stream()
-                        .map(categoryRepository::getReferenceById)
+                        .map(genreRepository::getReferenceById)
                         .toList();
 
         return Book.builder()
@@ -60,7 +60,7 @@ public class BookMapper {
                 .year(bookRequest.year())
                 .deleteDate(bookRequest.deleteDate())
                 .author(authorFromDB)
-                .categories(categories)
+                .genres(genres)
                 .build();
     }
 }

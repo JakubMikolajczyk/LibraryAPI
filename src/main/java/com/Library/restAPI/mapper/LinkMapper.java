@@ -1,7 +1,10 @@
 package com.Library.restAPI.mapper;
 
 import com.Library.restAPI.dto.response.Link;
-import com.Library.restAPI.model.*;
+import com.Library.restAPI.model.Author;
+import com.Library.restAPI.model.Book;
+import com.Library.restAPI.model.Genre;
+import com.Library.restAPI.model.User;
 
 public class LinkMapper {
 
@@ -13,8 +16,8 @@ public class LinkMapper {
         return book == null ? null : new Link(book.getId(), "books/");
     }
 
-    public static Link toLink(Category category){
-        return category == null ? null : new Link(category.getId(), "categories/");
+    public static Link toLink(Genre genre){
+        return genre == null ? null : new Link(genre.getId(), "genres/");
     }
 
     public static Link toLink(User user){

@@ -11,7 +11,7 @@ import com.Library.restAPI.model.Token;
 import com.Library.restAPI.model.User;
 import com.Library.restAPI.repository.TokenRepository;
 import com.Library.restAPI.repository.UserRepository;
-import com.Library.restAPI.security.jwt.JwtService;
+import com.Library.restAPI.security.JwtService;
 import com.Library.restAPI.service.AuthService;
 import io.jsonwebtoken.io.IOException;
 import jakarta.servlet.http.Cookie;

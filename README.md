@@ -37,8 +37,8 @@ After run server you can see [swagger documentation](http://localhost:8080/swagg
 * GET api/v1/authors
 * GET api/v1/authors/{authorId}
 ---
-* GET api/v1/categories
-* GET api/v1/categories/{categoryId}
+* GET api/v1/genres
+* GET api/v1/genres/{genreId}
 ---
 * GET api/v1/specimens
 * GET api/v1/specimens/{specimenId}
@@ -57,8 +57,8 @@ After run server you can see [swagger documentation](http://localhost:8080/swagg
 * GET api/v1/users/{userId}/borrows
 * GET api/v1/users/{userId}/borrow-histories
 ---
-* POST api/v1/categories
-* GET, PUT, DELETE api/v1/categories/{categoryId}
+* POST api/v1/genres
+* GET, PUT, DELETE api/v1/genres/{genreId}
 ---
 * POST api/v1/books
 * POST api/v1/books/{bookId}/specimens

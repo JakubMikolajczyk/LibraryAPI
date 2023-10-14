@@ -1,6 +1,6 @@
 package com.Library.restAPI.dto.request;
 
-public record CategoryRequest (
+public record GenreRequest(
         String name
 ){
 }
