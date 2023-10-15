@@ -1,6 +1,6 @@
 package com.Library.restAPI.service.impl;
 
-import com.Library.restAPI.exception.BookNotExists;
+import com.Library.restAPI.exception.BookNotExistsException;
 import com.Library.restAPI.exception.SpecimenDeleteException;
 import com.Library.restAPI.exception.SpecimenNotFoundException;
 import com.Library.restAPI.model.SpecimenBorrow;
@@ -36,7 +36,7 @@ public class SpecimenServiceImpl implements SpecimenService {
             specimenBorrowRepository.save(specimenBorrow);
         }
         catch (DataIntegrityViolationException exception){
-            throw new BookNotExists();
+            throw new BookNotExistsException();
         }
     }
 

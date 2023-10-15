@@ -1,6 +1,6 @@
 package com.Library.restAPI.exceptionHandler;
 
-import com.Library.restAPI.exception.BookNotExists;
+import com.Library.restAPI.exception.BookNotExistsException;
 import com.Library.restAPI.exception.BookNotFoundException;
 import org.springdoc.api.ErrorMessage;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ public class BookExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage("Book not found."));
     }
 
-    @ExceptionHandler(BookNotExists.class)
+    @ExceptionHandler(BookNotExistsException.class)
     public ResponseEntity<ErrorMessage> bookNotExists(){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorMessage("Book not exists."));
     }

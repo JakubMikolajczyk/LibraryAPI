@@ -4,7 +4,7 @@ import com.Library.restAPI.CookieProvider;
 import com.Library.restAPI.config.ApplicationConfig;
 import com.Library.restAPI.config.SecurityConfiguration;
 import com.Library.restAPI.dto.request.SpecimenRequest;
-import com.Library.restAPI.exception.BookNotExists;
+import com.Library.restAPI.exception.BookNotExistsException;
 import com.Library.restAPI.exception.SpecimenDeleteException;
 import com.Library.restAPI.exception.SpecimenNotFoundException;
 import com.Library.restAPI.exceptionHandler.GlobalExceptionHandler;
@@ -179,7 +179,7 @@ class SpecimenControllerITest {
         Long id = new Random().nextLong();
         when(bookRepository.getReferenceById(id)).thenReturn(null);
         SpecimenRequest specimenRequest = new SpecimenRequest(id);
-        doThrow(BookNotExists.class).when(specimenService).createSpecimen(any());
+        doThrow(BookNotExistsException.class).when(specimenService).createSpecimen(any());
         //when
         mockMvc.perform(post("/api/v1/specimens")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -270,7 +270,7 @@ class SpecimenControllerITest {
         //given
         Long bookId = new Random().nextLong();
         when(bookRepository.getReferenceById(bookId)).thenReturn(null);
-        doThrow(BookNotExists.class).when(specimenService).createSpecimen(any());
+        doThrow(BookNotExistsException.class).when(specimenService).createSpecimen(any());
         //when
         mockMvc.perform(post("/api/v1/books/" + bookId +"/specimens")
                         .cookie(cookieProvider.generateCookie(role)))
