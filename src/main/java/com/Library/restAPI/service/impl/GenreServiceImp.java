@@ -1,10 +1,12 @@
 package com.Library.restAPI.service.impl;
 
+import com.Library.restAPI.exception.GenreDeleteException;
 import com.Library.restAPI.exception.GenreNotFoundException;
 import com.Library.restAPI.model.Genre;
 import com.Library.restAPI.repository.GenreRepository;
 import com.Library.restAPI.service.GenreService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,6 +41,11 @@ public class GenreServiceImp implements GenreService {
 
     @Override
     public void deleteGenreById(Long id) {
-        genreRepository.deleteById(id);
+        try {
+            genreRepository.deleteById(id);
+        }
+        catch (DataIntegrityViolationException exception){ //only possible if contain related book
+            throw new GenreDeleteException(genreRepository.findById(id).get()); //throw only if genre exists
+        }
     }
 }
