@@ -3,15 +3,11 @@ package com.Library.restAPI.controller;
 import com.Library.restAPI.dto.request.BookRequest;
 import com.Library.restAPI.dto.response.BookDto;
 import com.Library.restAPI.dto.response.BorrowDto;
-import com.Library.restAPI.dto.response.BorrowHistoryDto;
 import com.Library.restAPI.dto.response.SpecimenDto;
 import com.Library.restAPI.mapper.BookMapper;
-import com.Library.restAPI.mapper.BorrowHistoryMapper;
 import com.Library.restAPI.mapper.BorrowMapper;
 import com.Library.restAPI.mapper.SpecimenMapper;
 import com.Library.restAPI.service.BookService;
-import com.Library.restAPI.service.BorrowHistoryService;
-import com.Library.restAPI.service.BorrowService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,8 +22,6 @@ import java.util.stream.Collectors;
 public class BookController {
 
     private final BookService bookService;
-    private final BorrowService borrowService;
-    private final BorrowHistoryService borrowHistoryService;
     private final BookMapper bookMapper;
 
     @GetMapping("books")
@@ -68,19 +62,10 @@ public class BookController {
 
     @GetMapping("books/{bookId}/borrows")
     public List<BorrowDto> getBorrowsByBookId(@PathVariable Long bookId){
-        return borrowService
-                .getAllBorrowsByBookId(bookId)
+        return bookService.getBookById(bookId)
+                .getSpecimenBorrows()
                 .stream()
                 .map(BorrowMapper::toDto)
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping("books/{bookId}/borrowHistories")
-    public List<BorrowHistoryDto> getHistoryByBookId(@PathVariable Long bookId){
-        return borrowHistoryService
-                .getAllHistoryByBookId(bookId)
-                .stream()
-                .map(BorrowHistoryMapper::toDto)
                 .collect(Collectors.toList());
     }
 }

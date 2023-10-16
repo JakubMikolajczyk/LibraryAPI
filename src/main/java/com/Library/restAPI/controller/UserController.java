@@ -7,8 +7,6 @@ import com.Library.restAPI.dto.response.UserDto;
 import com.Library.restAPI.mapper.BorrowHistoryMapper;
 import com.Library.restAPI.mapper.BorrowMapper;
 import com.Library.restAPI.mapper.UserMapper;
-import com.Library.restAPI.service.BorrowHistoryService;
-import com.Library.restAPI.service.BorrowService;
 import com.Library.restAPI.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +20,6 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private final UserService userService;
-    private final BorrowService borrowService;
-    private final BorrowHistoryService borrowHistoryService;
     private final UserMapper userMapper;
 
     @GetMapping("users")
@@ -38,8 +34,8 @@ public class UserController {
 
     @GetMapping("users/{userId}/borrows")
     public List<BorrowDto> getUserBorrows(@PathVariable Long userId){
-        return borrowService
-                .getAllBorrowsByUserId(userId)
+        return userService.getUserById(userId)
+                .getBorrows()
                 .stream()
                 .map(BorrowMapper::toDto)
                 .collect(Collectors.toList());
@@ -47,8 +43,8 @@ public class UserController {
 
     @GetMapping("users/{userId}/borrow-histories")
     public List<BorrowHistoryDto> getUserHistories(@PathVariable Long userId){
-        return borrowHistoryService
-                .getAllHistoryByUserId(userId, true)
+        return userService.getUserById(userId)
+                .getBorrowsHistory()
                 .stream()
                 .map(BorrowHistoryMapper::toDto)
                 .collect(Collectors.toList());
