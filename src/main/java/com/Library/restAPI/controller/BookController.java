@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/books")
+@RequestMapping("api/v1/")
 public class BookController {
 
     private final BookService bookService;
@@ -32,33 +32,33 @@ public class BookController {
     private final SpecimenMapper specimenMapper;
     private final BorrowMapper borrowMapper;
 
-    @GetMapping("")
+    @GetMapping("books")
     public Page<BookDto> getAllBooks(Pageable pageable){
         return bookService.getAllBooks(pageable)
                 .map(bookMapper::toDto);
     }
 
-    @PostMapping()
+    @PostMapping("books")
     public void createBook(@RequestBody BookRequest bookRequest){
         bookService.createBook(bookMapper.toEntity(bookRequest));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("books/{id}")
     public BookDto getBookById(@PathVariable Long id){
         return bookMapper.toDto(bookService.getBookById(id));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("books/{id}")
     public void editBookById(@PathVariable Long id, @RequestBody BookRequest bookRequest){
         bookService.editBook(bookMapper.toEntity(id, bookRequest));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("books/{id}")
     public void deleteBookById(@PathVariable Long id){
         bookService.deleteBookById(id);
     }
 
-    @GetMapping("/{bookId}/specimens")
+    @GetMapping("books/{bookId}/specimens")
     public List<SpecimenDto> getSpecimenByBookId(@PathVariable Long bookId){
         return bookService
                 .getBookById(bookId)
@@ -68,7 +68,7 @@ public class BookController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{bookId}/borrows")
+    @GetMapping("books/{bookId}/borrows")
     public List<BorrowDto> getBorrowsByBookId(@PathVariable Long bookId){
         return borrowService
                 .getAllBorrowsByBookId(bookId)
@@ -77,7 +77,7 @@ public class BookController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{bookId}/borrowHistories")
+    @GetMapping("books/{bookId}/borrowHistories")
     public List<BorrowHistoryDto> getHistoryByBookId(@PathVariable Long bookId){
         return borrowHistoryService
                 .getAllHistoryByBookId(bookId)

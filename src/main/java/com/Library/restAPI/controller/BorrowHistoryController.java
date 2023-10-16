@@ -14,12 +14,12 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/borrow-histories")
+@RequestMapping("api/v1/")
 public class BorrowHistoryController {
 
     private final BorrowHistoryService borrowHistoryService;
 
-    @GetMapping
+    @GetMapping("borrow-histories")
     public List<BorrowHistoryDto> getAllHistory(){
         return borrowHistoryService
                 .getAllHistory()
@@ -28,7 +28,7 @@ public class BorrowHistoryController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("borrow-histories/{id}")
     public BorrowHistoryDto getHistoryById(@PathVariable Long id){
         return BorrowHistoryMapper.toDto(borrowHistoryService.getHistoryById(id));
     }

@@ -12,13 +12,13 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/genres")
+@RequestMapping("api/v1/")
 public class GenreController {
 
     private final GenreService genreService;
     private final GenreMapper genreMapper;
 
-    @GetMapping
+    @GetMapping("genres")
     public List<GenreDto> getAllGenres(){
         return genreService.getAllGenres()
                 .stream()
@@ -26,22 +26,22 @@ public class GenreController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping
+    @PostMapping("genres")
     public void createGenre(@RequestBody GenreRequest genreRequest){
         genreService.createGenre(genreMapper.toEntity(genreRequest));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("genres/{id}")
     public GenreDto getGenre(@PathVariable Long id){
         return genreMapper.toDto(genreService.getGenreById(id));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("genres/{id}")
     public void editGenre(@PathVariable Long id, @RequestBody GenreRequest genreRequest){
         genreService.editGenre(genreMapper.toEntity(id, genreRequest));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("genres/{id}")
     public void deleteGenre(@PathVariable Long id){
         genreService.deleteGenreById(id);
     }

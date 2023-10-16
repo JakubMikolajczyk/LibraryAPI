@@ -1,11 +1,11 @@
 package com.Library.restAPI.controller;
 
 import com.Library.restAPI.dto.request.PasswordChangeRequest;
+import com.Library.restAPI.dto.request.UserEditAdminRequest;
+import com.Library.restAPI.dto.request.UserEditRequest;
 import com.Library.restAPI.dto.response.BorrowDto;
 import com.Library.restAPI.dto.response.BorrowHistoryDto;
 import com.Library.restAPI.dto.response.UserDto;
-import com.Library.restAPI.dto.request.UserEditAdminRequest;
-import com.Library.restAPI.dto.request.UserEditRequest;
 import com.Library.restAPI.mapper.BorrowHistoryMapper;
 import com.Library.restAPI.mapper.BorrowMapper;
 import com.Library.restAPI.mapper.UserMapper;
@@ -14,7 +14,6 @@ import com.Library.restAPI.service.AuthService;
 import com.Library.restAPI.service.BorrowHistoryService;
 import com.Library.restAPI.service.BorrowService;
 import com.Library.restAPI.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +23,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/users")
+@RequestMapping("api/v1/")
 public class UserController {
 
     private final UserService userService;
@@ -34,17 +33,17 @@ public class UserController {
     private final UserMapper userMapper;
     private final BorrowMapper borrowMapper;
 
-    @GetMapping("/me")
+    @GetMapping("users/me")
     public UserDto getMe(){
         return userMapper.toDto(userService.getUserById(UsernameAndIdPrincipal.getIdFromSecurityCtx()));
     }
 
-    @PutMapping("/me")
+    @PutMapping("users/me")
     public void editMe(@RequestBody UserEditRequest userEditRequest){
         userService.updateUser(userMapper.toEntity(UsernameAndIdPrincipal.getIdFromSecurityCtx(), userEditRequest));
     }
 
-    @GetMapping("/me/borrows")
+    @GetMapping("users/me/borrows")
     public List<BorrowDto> getMyBorrows(){
         return borrowService
                 .getAllBorrowsByUserId(UsernameAndIdPrincipal.getIdFromSecurityCtx())
@@ -53,7 +52,7 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/me/borrow-histories")
+    @GetMapping("users/me/borrow-histories")
     public List<BorrowHistoryDto> getMyHistory(@RequestParam(required = false) boolean showHidden){
         return borrowHistoryService
                 .getAllHistoryByUserId(UsernameAndIdPrincipal.getIdFromSecurityCtx(),showHidden)
@@ -62,17 +61,17 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping("/me/borrow-histories/{historyId}/hide")
+    @PostMapping("users/me/borrow-histories/{historyId}/hide")
     public void hideMyHistory(@PathVariable Long historyId){
         borrowHistoryService.hideHistoryById(historyId, UsernameAndIdPrincipal.getIdFromSecurityCtx());
     }
 
-    @PostMapping("/me/borrow-histories/{historyId}/unhide")
+    @PostMapping("users/me/borrow-histories/{historyId}/unhide")
     public void unhideMyHistory(@PathVariable Long historyId){
         borrowHistoryService.unHideHistoryById(historyId, UsernameAndIdPrincipal.getIdFromSecurityCtx());
     }
 
-    @PostMapping("/me/change-password")
+    @PostMapping("users/me/change-password")
     public void changePassword(HttpServletResponse response, PasswordChangeRequest passwordChangeRequest){
         authService.changePassword(
                 UsernameAndIdPrincipal.getIdFromSecurityCtx(),
@@ -82,17 +81,17 @@ public class UserController {
 
 
     //STAFF and ADMIN
-    @GetMapping
+    @GetMapping("users")
     public List<UserDto> getAllUsers(){
         return userService.getAllUsers().stream().map(userMapper::toDto).collect(Collectors.toList());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("users/{id}")
     public UserDto getUser(@PathVariable Long id){
         return userMapper.toDto(userService.getUserById(id));
     }
 
-    @GetMapping("/{userId}/borrows")
+    @GetMapping("users/{userId}/borrows")
     public List<BorrowDto> getUserBorrows(@PathVariable Long userId){
         return borrowService
                 .getAllBorrowsByUserId(userId)
@@ -101,7 +100,7 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{userId}/borrow-histories")
+    @GetMapping("users/{userId}/borrow-histories")
     public List<BorrowHistoryDto> getUserHistories(@PathVariable Long userId){
         return borrowHistoryService
                 .getAllHistoryByUserId(userId, true)
@@ -109,12 +108,12 @@ public class UserController {
                 .map(BorrowHistoryMapper::toDto)
                 .collect(Collectors.toList());
     }
-    @PutMapping("/{id}")
+    @PutMapping("users/{id}")
     public void editUser(@PathVariable Long id, @RequestBody UserEditAdminRequest userEditAdminRequest){
         userService.updateUser(userMapper.toEntity(id, userEditAdminRequest));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("users/{id}")
     public void deleteUser(@PathVariable Long id){
         userService.deleteUserById(id);
     }

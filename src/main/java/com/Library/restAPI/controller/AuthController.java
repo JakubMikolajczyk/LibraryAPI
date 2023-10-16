@@ -13,29 +13,29 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/")
 public class AuthController {
 
     private final AuthService authService;
     private final UserMapper userMapper;
 
-    @PostMapping("/register")
+    @PostMapping("auth/register")
     public void register(@RequestBody RegisterRequest request){
         authService.register(request);
     }
 
-    @PostMapping("/login")
+    @PostMapping("auth/login")
     public UserDto login(@RequestBody LoginRequest request, HttpServletResponse response){
         return userMapper.toDto(authService.login(request, response));
 
     }
 
-    @GetMapping("/refresh-token")
+    @GetMapping("auth/refresh-token")
     public UserDto refreshToken(HttpServletRequest request, HttpServletResponse response){
         return userMapper.toDto(authService.refreshToken(request, response));
     }
 
-    @PostMapping("/logout")
+    @PostMapping("auth/logout")
     public void logout(HttpServletRequest request, HttpServletResponse response){
         authService.logout(request, response);
     }
