@@ -22,7 +22,7 @@ public class GenreController {
     public List<GenreDto> getAllGenres(){
         return genreService.getAllGenres()
                 .stream()
-                .map(genreMapper::toDto)
+                .map(GenreMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -33,7 +33,7 @@ public class GenreController {
 
     @GetMapping("genres/{id}")
     public GenreDto getGenre(@PathVariable Long id){
-        return genreMapper.toDto(genreService.getGenreById(id));
+        return GenreMapper.toDto(genreService.getGenreById(id));
     }
 
     @PutMapping("genres/{id}")

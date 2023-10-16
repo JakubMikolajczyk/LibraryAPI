@@ -25,16 +25,15 @@ public class UserController {
     private final BorrowService borrowService;
     private final BorrowHistoryService borrowHistoryService;
     private final UserMapper userMapper;
-    private final BorrowMapper borrowMapper;
 
     @GetMapping("users")
     public List<UserDto> getAllUsers(){
-        return userService.getAllUsers().stream().map(userMapper::toDto).collect(Collectors.toList());
+        return userService.getAllUsers().stream().map(UserMapper::toDto).collect(Collectors.toList());
     }
 
     @GetMapping("users/{id}")
     public UserDto getUser(@PathVariable Long id){
-        return userMapper.toDto(userService.getUserById(id));
+        return UserMapper.toDto(userService.getUserById(id));
     }
 
     @GetMapping("users/{userId}/borrows")
@@ -42,7 +41,7 @@ public class UserController {
         return borrowService
                 .getAllBorrowsByUserId(userId)
                 .stream()
-                .map(borrowMapper::toDto)
+                .map(BorrowMapper::toDto)
                 .collect(Collectors.toList());
     }
 

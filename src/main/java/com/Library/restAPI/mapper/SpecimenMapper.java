@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class SpecimenMapper {
     private final BookRepository bookRepository;
 
-    public SpecimenDto toDto(SpecimenBorrow specimenBorrow){
+    public static SpecimenDto toDto(SpecimenBorrow specimenBorrow){
         return SpecimenDto.builder()
                 .id(specimenBorrow.getId())
                 .book(LinkMapper.toLink(specimenBorrow.getBook()))

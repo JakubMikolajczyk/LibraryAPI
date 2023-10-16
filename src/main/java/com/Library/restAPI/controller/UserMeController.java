@@ -30,11 +30,10 @@ public class UserMeController {
     private final BorrowHistoryService borrowHistoryService;
     private final AuthService authService;
     private final UserMapper userMapper;
-    private final BorrowMapper borrowMapper;
 
     @GetMapping("users/me")
     public UserDto getMe(){
-        return userMapper.toDto(userService.getUserById(UsernameAndIdPrincipal.getIdFromSecurityCtx()));
+        return UserMapper.toDto(userService.getUserById(UsernameAndIdPrincipal.getIdFromSecurityCtx()));
     }
 
     @PutMapping("users/me")
@@ -47,7 +46,7 @@ public class UserMeController {
         return borrowService
                 .getAllBorrowsByUserId(UsernameAndIdPrincipal.getIdFromSecurityCtx())
                 .stream()
-                .map(borrowMapper::toDto)
+                .map(BorrowMapper::toDto)
                 .collect(Collectors.toList());
     }
 

@@ -29,13 +29,11 @@ public class BookController {
     private final BorrowService borrowService;
     private final BorrowHistoryService borrowHistoryService;
     private final BookMapper bookMapper;
-    private final SpecimenMapper specimenMapper;
-    private final BorrowMapper borrowMapper;
 
     @GetMapping("books")
     public Page<BookDto> getAllBooks(Pageable pageable){
         return bookService.getAllBooks(pageable)
-                .map(bookMapper::toDto);
+                .map(BookMapper::toDto);
     }
 
     @PostMapping("books")
@@ -45,7 +43,7 @@ public class BookController {
 
     @GetMapping("books/{id}")
     public BookDto getBookById(@PathVariable Long id){
-        return bookMapper.toDto(bookService.getBookById(id));
+        return BookMapper.toDto(bookService.getBookById(id));
     }
 
     @PutMapping("books/{id}")
@@ -64,7 +62,7 @@ public class BookController {
                 .getBookById(bookId)
                 .getSpecimenBorrows()
                 .stream()
-                .map(specimenMapper::toDto)
+                .map(SpecimenMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -73,7 +71,7 @@ public class BookController {
         return borrowService
                 .getAllBorrowsByBookId(bookId)
                 .stream()
-                .map(borrowMapper::toDto)
+                .map(BorrowMapper::toDto)
                 .collect(Collectors.toList());
     }
 

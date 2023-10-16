@@ -1,8 +1,8 @@
 package com.Library.restAPI.mapper;
 
-import com.Library.restAPI.dto.response.UserDto;
 import com.Library.restAPI.dto.request.UserEditAdminRequest;
 import com.Library.restAPI.dto.request.UserEditRequest;
+import com.Library.restAPI.dto.response.UserDto;
 import com.Library.restAPI.model.User;
 import com.Library.restAPI.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
 
-
     private final UserRepository userRepository;
-    public UserDto toDto(User entity){
+
+    public static UserDto toDto(User entity){
         return UserDto.builder()
                 .id(entity.getId())
                 .username(entity.getUsername())

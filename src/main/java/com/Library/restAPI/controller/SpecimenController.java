@@ -20,7 +20,7 @@ public class SpecimenController {
 
     @GetMapping("specimens/{id}")
     public SpecimenDto getSpecimenById(@PathVariable Long id){
-        return specimenMapper.toDto(specimenService.getSpecimenById(id));
+        return SpecimenMapper.toDto(specimenService.getSpecimenById(id));
     }
 
     @GetMapping("specimens")
@@ -28,7 +28,7 @@ public class SpecimenController {
         return specimenService
                 .getAllSpecimen()
                 .stream()
-                .map(specimenMapper::toDto)
+                .map(SpecimenMapper::toDto)
                 .collect(Collectors.toList());
     }
 

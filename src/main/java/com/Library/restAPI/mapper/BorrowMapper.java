@@ -22,7 +22,7 @@ public class BorrowMapper {
     private final UserRepository userRepository;
     private final SpecimenBorrowRepository specimenBorrowRepository;
 
-    public BorrowDto toDto(SpecimenBorrow specimenBorrow){
+    public static BorrowDto toDto(SpecimenBorrow specimenBorrow){
         return BorrowDto.builder()
                 .id(specimenBorrow.getId())
                 .book(LinkMapper.toLink(specimenBorrow.getBook()))

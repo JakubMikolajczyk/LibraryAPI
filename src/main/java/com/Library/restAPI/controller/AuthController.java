@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
-    private final UserMapper userMapper;
 
     @PostMapping("auth/register")
     public void register(@RequestBody RegisterRequest request){
@@ -26,13 +25,13 @@ public class AuthController {
 
     @PostMapping("auth/login")
     public UserDto login(@RequestBody LoginRequest request, HttpServletResponse response){
-        return userMapper.toDto(authService.login(request, response));
+        return UserMapper.toDto(authService.login(request, response));
 
     }
 
     @GetMapping("auth/refresh-token")
     public UserDto refreshToken(HttpServletRequest request, HttpServletResponse response){
-        return userMapper.toDto(authService.refreshToken(request, response));
+        return UserMapper.toDto(authService.refreshToken(request, response));
     }
 
     @PostMapping("auth/logout")

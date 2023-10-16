@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Component
 public class GenreMapper {
 
-    public GenreDto toDto(Genre genre){
+    public static GenreDto toDto(Genre genre){
         return GenreDto.builder()
                 .id(genre.getId())
                 .name(genre.getName())

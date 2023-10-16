@@ -23,13 +23,13 @@ public class BorrowController {
         return borrowService
                 .getAllBorrows()
                 .stream()
-                .map(borrowMapper::toDto)
+                .map(BorrowMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("borrows/{id}")
     public BorrowDto getBorrowById(@PathVariable Long id){
-        return borrowMapper.toDto(borrowService.getBorrowById(id));
+        return BorrowMapper.toDto(borrowService.getBorrowById(id));
     }
 
     @PostMapping("borrows")

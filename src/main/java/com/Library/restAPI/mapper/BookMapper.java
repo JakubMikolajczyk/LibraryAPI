@@ -22,7 +22,7 @@ public class BookMapper {
     private final AuthorRepository authorRepository;
     private final GenreRepository genreRepository;
 
-    public BookDto toDto(Book book){
+    public static BookDto toDto(Book book){
         return BookDto.builder()
                 .id(book.getId())
                 .tittle(book.getTittle())
