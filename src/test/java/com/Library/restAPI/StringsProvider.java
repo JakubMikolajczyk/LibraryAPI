@@ -22,4 +22,11 @@ public class StringsProvider {
                 "Test-test", "test-Test", "Test--Test", "Test-12", "Test123-Test", "test-test", "test.Test");
     }
 
+    private static Stream<String> okWithoutNumber(){
+        return Stream.of("Test", "test", "T T T", "t t t", "t.t", ".t", "a", "T", "t-t");
+    }
+
+    private static Stream<String> wrongWithoutNumber(){
+        return Stream.of("1", "12", "1 1", "test1", "1test", "Test1", "1Test", "test 1", "Test 1", "test-1", "Test.1");
+    }
 }
