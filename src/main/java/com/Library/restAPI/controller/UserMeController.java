@@ -60,12 +60,12 @@ public class UserMeController {
     }
 
     @PostMapping("users/me/borrow-histories/{historyId}/hide")
-    public void hideMyHistory(@PathVariable Long historyId){
+    public void hideMyHistory(@PathVariable("historyId") Long historyId){
         borrowHistoryService.hideHistoryById(historyId, UsernameAndIdPrincipal.getIdFromSecurityCtx());
     }
 
     @PostMapping("users/me/borrow-histories/{historyId}/unhide")
-    public void unhideMyHistory(@PathVariable Long historyId){
+    public void unhideMyHistory(@PathVariable("historyId")  Long historyId){
         borrowHistoryService.unHideHistoryById(historyId, UsernameAndIdPrincipal.getIdFromSecurityCtx());
     }
 

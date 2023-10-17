@@ -28,7 +28,7 @@ public class BorrowController {
     }
 
     @GetMapping("borrows/{id}")
-    public BorrowDto getBorrowById(@PathVariable Long id){
+    public BorrowDto getBorrowById(@PathVariable("id") Long id){
         return BorrowMapper.toDto(borrowService.getBorrowById(id));
     }
 
@@ -42,7 +42,7 @@ public class BorrowController {
         borrowService.createBorrow(borrowMapper.toEntity(borrowUsernameRequest));
     }
     @DeleteMapping({"borrows/{id}"})
-    public void deleteBorrow(@PathVariable Long id){
+    public void deleteBorrow(@PathVariable("id") Long id){
         borrowService.deleteBorrowById(id);
     }
 }

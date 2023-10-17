@@ -19,7 +19,7 @@ public class SpecimenController {
     private final SpecimenMapper specimenMapper;
 
     @GetMapping("specimens/{id}")
-    public SpecimenDto getSpecimenById(@PathVariable Long id){
+    public SpecimenDto getSpecimenById(@PathVariable("id") Long id){
         return SpecimenMapper.toDto(specimenService.getSpecimenById(id));
     }
 
@@ -38,12 +38,12 @@ public class SpecimenController {
     }
 
     @PostMapping("books/{bookId}/specimens")
-    public void createSpecimenByBookId(@PathVariable Long bookId){
+    public void createSpecimenByBookId(@PathVariable("bookId") Long bookId){
         specimenService.createSpecimen(specimenMapper.toEntity(bookId));
     }
 
     @DeleteMapping("specimens/{id}")
-    public void deleteSpecimen(@PathVariable Long id){
+    public void deleteSpecimen(@PathVariable("id") Long id){
         specimenService.deleteSpecimenById(id);
     }
 }

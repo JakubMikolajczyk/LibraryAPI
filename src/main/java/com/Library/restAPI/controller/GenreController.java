@@ -32,17 +32,17 @@ public class GenreController {
     }
 
     @GetMapping("genres/{id}")
-    public GenreDto getGenre(@PathVariable Long id){
+    public GenreDto getGenre(@PathVariable("id") Long id){
         return GenreMapper.toDto(genreService.getGenreById(id));
     }
 
     @PutMapping("genres/{id}")
-    public void editGenre(@PathVariable Long id, @RequestBody GenreRequest genreRequest){
+    public void editGenre(@PathVariable("id") Long id, @RequestBody GenreRequest genreRequest){
         genreService.editGenre(genreMapper.toEntity(id, genreRequest));
     }
 
     @DeleteMapping("genres/{id}")
-    public void deleteGenre(@PathVariable Long id){
+    public void deleteGenre(@PathVariable("id") Long id){
         genreService.deleteGenreById(id);
     }
 }

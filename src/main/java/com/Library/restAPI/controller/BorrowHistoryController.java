@@ -29,7 +29,7 @@ public class BorrowHistoryController {
     }
 
     @GetMapping("borrow-histories/{id}")
-    public BorrowHistoryDto getHistoryById(@PathVariable Long id){
+    public BorrowHistoryDto getHistoryById(@PathVariable("id") Long id){
         return BorrowHistoryMapper.toDto(borrowHistoryService.getHistoryById(id));
     }
 }

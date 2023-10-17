@@ -36,22 +36,22 @@ public class BookController {
     }
 
     @GetMapping("books/{id}")
-    public BookDto getBookById(@PathVariable Long id){
+    public BookDto getBookById(@PathVariable("id") Long id){
         return BookMapper.toDto(bookService.getBookById(id));
     }
 
     @PutMapping("books/{id}")
-    public void editBookById(@PathVariable Long id, @RequestBody BookRequest bookRequest){
+    public void editBookById(@PathVariable("id") Long id, @RequestBody BookRequest bookRequest){
         bookService.editBook(bookMapper.toEntity(id, bookRequest));
     }
 
     @DeleteMapping("books/{id}")
-    public void deleteBookById(@PathVariable Long id){
+    public void deleteBookById(@PathVariable("id") Long id){
         bookService.deleteBookById(id);
     }
 
     @GetMapping("books/{bookId}/specimens")
-    public List<SpecimenDto> getSpecimenByBookId(@PathVariable Long bookId){
+    public List<SpecimenDto> getSpecimenByBookId(@PathVariable("bookId") Long bookId){
         return bookService
                 .getBookById(bookId)
                 .getSpecimenBorrows()
@@ -61,7 +61,7 @@ public class BookController {
     }
 
     @GetMapping("books/{bookId}/borrows")
-    public List<BorrowDto> getBorrowsByBookId(@PathVariable Long bookId){
+    public List<BorrowDto> getBorrowsByBookId(@PathVariable("bookId") Long bookId){
         return bookService.getBookById(bookId)
                 .getSpecimenBorrows()
                 .stream()

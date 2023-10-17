@@ -28,12 +28,12 @@ public class UserController {
     }
 
     @GetMapping("users/{id}")
-    public UserDto getUser(@PathVariable Long id){
+    public UserDto getUser(@PathVariable("id") Long id){
         return UserMapper.toDto(userService.getUserById(id));
     }
 
     @GetMapping("users/{userId}/borrows")
-    public List<BorrowDto> getUserBorrows(@PathVariable Long userId){
+    public List<BorrowDto> getUserBorrows(@PathVariable("userId") Long userId){
         return userService.getUserById(userId)
                 .getBorrows()
                 .stream()
@@ -42,7 +42,7 @@ public class UserController {
     }
 
     @GetMapping("users/{userId}/borrow-histories")
-    public List<BorrowHistoryDto> getUserHistories(@PathVariable Long userId){
+    public List<BorrowHistoryDto> getUserHistories(@PathVariable("userId") Long userId){
         return userService.getUserById(userId)
                 .getBorrowsHistory()
                 .stream()
@@ -51,12 +51,12 @@ public class UserController {
     }
 
     @PutMapping("users/{id}")
-    public void editUser(@PathVariable Long id, @RequestBody UserEditAdminRequest userEditAdminRequest){
+    public void editUser(@PathVariable("id") Long id, @RequestBody UserEditAdminRequest userEditAdminRequest){
         userService.updateUser(userMapper.toEntity(id, userEditAdminRequest));
     }
 
     @DeleteMapping("users/{id}")
-    public void deleteUser(@PathVariable Long id){
+    public void deleteUser(@PathVariable("id") Long id){
         userService.deleteUserById(id);
     }
 }
