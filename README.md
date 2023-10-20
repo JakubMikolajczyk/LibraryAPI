@@ -1,11 +1,16 @@
 # LibraryAPI
 
-## Feature:
+## Techstack:
+* Java
 * Spring-boot
-* JPA
+* Spring Security
+* Hibernate
+* JUnit
+* Mockito
 * PostgreSQL
 * JWT token with refresh token
 * Swagger-ui
+* Lombok
 
 ## Instalation
 
