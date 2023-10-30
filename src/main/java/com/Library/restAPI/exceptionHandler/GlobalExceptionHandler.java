@@ -1,6 +1,7 @@
 package com.Library.restAPI.exceptionHandler;
 
 import com.Library.restAPI.dto.response.DataErrorDto;
+import com.Library.restAPI.exception.ForbiddenException;
 import jakarta.validation.ConstraintViolationException;
 import org.springdoc.api.ErrorMessage;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -37,5 +38,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorMessage> badData(DataIntegrityViolationException ex){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorMessage(ex.getMostSpecificCause().getMessage()));
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ErrorMessage> forbidden(){
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorMessage("Forbidden."));
     }
 }

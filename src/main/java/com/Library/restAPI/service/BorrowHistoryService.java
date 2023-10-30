@@ -8,12 +8,10 @@ import java.util.List;
 @Service
 public interface BorrowHistoryService {
 
+    BorrowHistory getHistoryById(Long id);
+    BorrowHistory getHistoryByIdAndUserId(Long id, Long userId);
     List<BorrowHistory> getAllHistory();
     List<BorrowHistory> getAllHistoryByUserId(Long userId, boolean showHidden);
     List<BorrowHistory> getAllHistoryByBookId(Long bookId);
-
-    BorrowHistory getHistoryById(Long id);
-
-    void unHideHistoryById(Long historyId, Long userId);
-    void hideHistoryById(Long historyId, Long userId);
+    void editHistory(BorrowHistory borrowHistory, Long userId);
 }

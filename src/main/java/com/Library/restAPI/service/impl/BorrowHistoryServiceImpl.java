@@ -1,6 +1,7 @@
 package com.Library.restAPI.service.impl;
 
 import com.Library.restAPI.exception.BorrowHistoryNotFoundException;
+import com.Library.restAPI.exception.ForbiddenException;
 import com.Library.restAPI.model.BorrowHistory;
 import com.Library.restAPI.repository.BorrowHistoryRepository;
 import com.Library.restAPI.service.BorrowHistoryService;
@@ -14,6 +15,18 @@ import java.util.List;
 public class BorrowHistoryServiceImpl implements BorrowHistoryService {
 
     private final BorrowHistoryRepository borrowHistoryRepository;
+
+    @Override
+    public BorrowHistory getHistoryById(Long id) {
+        return borrowHistoryRepository.findById(id)
+                .orElseThrow(BorrowHistoryNotFoundException::new);
+    }
+
+    @Override
+    public BorrowHistory getHistoryByIdAndUserId(Long id, Long userId) {
+        return borrowHistoryRepository.findByIdAndUserId(id, userId)
+                .orElseThrow(BorrowHistoryNotFoundException::new);
+    }
 
     @Override
     public List<BorrowHistory> getAllHistory() {
@@ -32,25 +45,18 @@ public class BorrowHistoryServiceImpl implements BorrowHistoryService {
         return borrowHistoryRepository.findAllByBookId(bookId);
     }
 
-    @Override
-    public BorrowHistory getHistoryById(Long id) {
-        return borrowHistoryRepository.findById(id)
-                .orElseThrow(BorrowHistoryNotFoundException::new);
-    }
 
     @Override
-    public void unHideHistoryById(Long historyId, Long userId) {
-        BorrowHistory fromDb = borrowHistoryRepository.findByIdAndUserId(historyId, userId)
+    public void editHistory(BorrowHistory borrowHistory, Long userId) {
+        BorrowHistory borrowHistoryFromDB = borrowHistoryRepository.findById(borrowHistory.getId())
                 .orElseThrow(BorrowHistoryNotFoundException::new);
-        fromDb.setHidden(false);
-        borrowHistoryRepository.save(fromDb);
+
+        if (!userId.equals(borrowHistoryFromDB.getUser().getId())){
+            throw new ForbiddenException();
+        }
+
+        borrowHistoryFromDB.setHidden(borrowHistory.isHidden());
+        borrowHistoryRepository.save(borrowHistoryFromDB);
     }
 
-    @Override
-    public void hideHistoryById(Long historyId, Long userId) {
-        BorrowHistory fromDb = borrowHistoryRepository.findByIdAndUserId(historyId, userId)
-                .orElseThrow(BorrowHistoryNotFoundException::new);
-        fromDb.setHidden(true);
-        borrowHistoryRepository.save(fromDb);
-    }
 }

@@ -27,7 +27,6 @@ public class UserMeController {
 
     private final UserService userService;
     private final BorrowService borrowService;
-    private final BorrowHistoryService borrowHistoryService;
     private final AuthService authService;
     private final UserMapper userMapper;
 
@@ -48,25 +47,6 @@ public class UserMeController {
                 .stream()
                 .map(BorrowMapper::toDto)
                 .collect(Collectors.toList());
-    }
-
-    @GetMapping("users/me/borrow-histories")
-    public List<BorrowHistoryDto> getMyHistory(@RequestParam(required = false) boolean showHidden){
-        return borrowHistoryService
-                .getAllHistoryByUserId(UsernameAndIdPrincipal.getIdFromSecurityCtx(),showHidden)
-                .stream()
-                .map(BorrowHistoryMapper::toDto)
-                .collect(Collectors.toList());
-    }
-
-    @PostMapping("users/me/borrow-histories/{historyId}/hide")
-    public void hideMyHistory(@PathVariable("historyId") Long historyId){
-        borrowHistoryService.hideHistoryById(historyId, UsernameAndIdPrincipal.getIdFromSecurityCtx());
-    }
-
-    @PostMapping("users/me/borrow-histories/{historyId}/unhide")
-    public void unhideMyHistory(@PathVariable("historyId")  Long historyId){
-        borrowHistoryService.unHideHistoryById(historyId, UsernameAndIdPrincipal.getIdFromSecurityCtx());
     }
 
     @PostMapping("users/me/change-password")

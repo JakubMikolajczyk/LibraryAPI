@@ -22,15 +22,19 @@ public class BorrowHistory {
 
     @ManyToOne
     @JoinColumn(name = "book_id")
+    @Column(updatable = false)
     private Book book;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @Column(updatable = false)
     private User user;
 
+    @Column(updatable = false)
     private Date startTime;
 
     @CreationTimestamp
+    @Column(updatable = false)
     private Date endTime;
 
     @ColumnDefault("FALSE")
